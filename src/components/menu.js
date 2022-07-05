@@ -1,4 +1,5 @@
 import "./menu.css";
+import { WIDGET } from "../define/consts";
 
 export default function Menu({
   navSelected,
@@ -39,6 +40,7 @@ export default function Menu({
               draggable="true"
               onDragStart={setMenuDragStart}
               onDragEnd={setMenuDragEnd}
+              movetype={WIDGET}
             >
               {value}
             </div>
