@@ -1,0 +1,63 @@
+.menu {
+  width: 300px;
+  margin-left: -300px;
+  background-color: antiquewhite;
+  position: relative;
+  height: 100%;
+
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+
+  transition-duration: 0.5s;
+
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+
+.absolute {
+  position: absolute;
+  left: 50px;
+  height: 90vh;
+}
+
+.title {
+  background-color: darkorange;
+  color: white;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+  cursor: default;
+}
+
+.vertical-menu {
+  overflow-y: auto;
+}
+
+.vertical-menu div {
+  color: black;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.vertical-menu div:hover {
+  background-color: #ccc;
+  cursor: grab;
+}
+
+.vertical-menu div.active {
+  background-color: #04aa6d;
+  color: white;
+  cursor: grabbing;
+}
