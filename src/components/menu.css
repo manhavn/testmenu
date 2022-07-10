@@ -40,23 +40,35 @@
   cursor: default;
 }
 
-.vertical-menu {
-  overflow-y: auto;
+.layout-widget-menu {
+  display: flex;
+  flex-wrap: wrap;
+
+  align-content: center;
+  align-items: center;
+  align-self: center;
+
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
 }
 
-.vertical-menu div {
+.layout-widget-item {
   color: black;
   display: block;
   padding: 12px;
   text-decoration: none;
+
+  width: fit-content;
+  min-width: 30%;
 }
 
-.vertical-menu div:hover {
+.layout-widget-item:hover {
   background-color: #ccc;
   cursor: grab;
 }
 
-.vertical-menu div.active {
+.layout-widget-item.active {
   background-color: #04aa6d;
   color: white;
   cursor: grabbing;

@@ -1,5 +1,17 @@
-export const WIDGET = "widget";
-export const DROPTYPE = "droptype";
+export const TEASER_LAYOUT = "teaser-layout";
+export const POPUP_LAYOUT = "popup-layout";
+export const POPUP_WIDGET = "popup-widget";
+export const TEMPLATES = "templates";
+
 export const MOVETYPE = "movetype";
+export const DROPTYPE = "droptype";
+export const DRAGTYPE = "dragtype";
 export const DRAGGABLE = "draggable";
 export const MAINID = "mainid";
+export const ELEMENT_ID = "id";
+
+export const MAIN_TYPE = "maintype";
+export const TEASER_BACKGROUND = "teaser-background";
+export const POPUP_BACKGROUND = "popup-background";
+
+export const LAYOUT_TYPE = "layouttype";

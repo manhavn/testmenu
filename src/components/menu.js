@@ -1,5 +1,5 @@
 import "./menu.css";
-import { WIDGET } from "../define/consts";
+import { useEffect, useState } from "react";
 
 export default function Menu({
   navSelected,
@@ -9,16 +9,33 @@ export default function Menu({
   setMouseDown,
   setMenuDragStart,
   setMenuDragEnd,
+  navList,
 }) {
-  const listItem = [
-    "Link 1",
-    "Link 2",
-    "Link 3",
-    "Link 4",
-    "Link 5",
-    "Link 6",
-    "Link 7",
-  ];
+  const [title, setTitle] = useState("");
+  const [valueSelected, setValueSelected] = useState("");
+  const [listItem, setListItem] = useState([]);
+  useEffect(() => {
+    if (!navSelected) {
+      setTitle("");
+      return;
+    }
+    if (navList) {
+      const menuSelectedItem = navList.filter(
+        ({ value }) => value === navSelected && navSelected
+      )[0];
+      if (menuSelectedItem) {
+        setTitle(menuSelectedItem.name);
+        setValueSelected(menuSelectedItem.value);
+        setListItem([
+          { name: "Link 1", menuId: `${menuSelectedItem.value}-01` },
+          { name: "Link 2", menuId: `${menuSelectedItem.value}-02` },
+          { name: "Link 3", menuId: `${menuSelectedItem.value}-03` },
+          { name: "Link 4", menuId: `${menuSelectedItem.value}-04` },
+          { name: "Link 5", menuId: `${menuSelectedItem.value}-05` },
+        ]);
+      }
+    }
+  }, [navList, navSelected]);
   return (
     <div className={"absolute"}>
       <div
@@ -28,21 +45,25 @@ export default function Menu({
         <button className={"close"} onClick={() => setSelected("")}>
           close
         </button>
-        <div className={"title"}>{navSelected ? navSelected : "Menu"}</div>
-        <div className="vertical-menu">
-          {listItem.map((value, index) => (
+        <div className={"title"}>{title || "Menu"}</div>
+        <div className="layout-widget-menu">
+          {listItem.map(({ name, menuId }, index) => (
             <div
-              id={`item-${index + 1}`}
+              id={menuId}
               key={index}
               onMouseUp={setMouseUp}
-              onMouseDown={() => setMouseDown(`item-${index + 1}`)}
-              className={mouseDown === `item-${index + 1}` ? "active" : ""}
+              onMouseDown={() => setMouseDown(menuId)}
+              className={
+                mouseDown === menuId
+                  ? "active layout-widget-item"
+                  : "layout-widget-item"
+              }
               draggable="true"
               onDragStart={setMenuDragStart}
               onDragEnd={setMenuDragEnd}
-              movetype={WIDGET}
+              dragtype={valueSelected}
             >
-              {value}
+              {name}
             </div>
           ))}
         </div>

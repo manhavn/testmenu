@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import "./nav.css";
 
-export default function Nav({ navSelected, setSelected }) {
-  const list = ["123", "456", "aaa", "789", "xyz"];
-
+export default function Nav({ navSelected, setSelected, navList }) {
   const [action, setAction] = useState();
   const [divClick, setDivClick] = useState();
   const [btnClick, setBtnClick] = useState();
@@ -23,15 +21,13 @@ export default function Nav({ navSelected, setSelected }) {
 
   return (
     <div className={"nav"} onClick={() => setDivClick(true)}>
-      {list.map((value, index) => (
+      {(navList || []).map(({ name, value }, index) => (
         <button
           key={index}
-          className={"btn"}
+          className={navSelected === value ? "btn btn-active" : "btn"}
           onClick={() => setBtnClick(value)}
         >
-          {navSelected === value ? "active" : "btn"}
-          {` `}
-          {value}
+          {name}
         </button>
       ))}
     </div>

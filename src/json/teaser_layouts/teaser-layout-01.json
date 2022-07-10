@@ -1,0 +1,78 @@
+{
+  "teaserLayout": {
+    "childElementIds": ["teaserLayout01"]
+  },
+  "childElements": {
+    "teaserLayout01": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "teaserLayout01"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".teaserLayout01",
+          "css": "position: fixed"
+        }
+      ],
+      "childElementIds": ["teaserDivText", "teaserLayout01test"]
+    },
+    "teaserLayout01test": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "teaserLayout01test"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".teaserLayout01test",
+          "css": "color:green;"
+        }
+      ],
+      "childElementIds": ["teaserLayout01testText"]
+    },
+    "teaserLayout01testText": {
+      "type": "text",
+      "value": "teaserLayout01testText"
+    },
+    "teaserDivText": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "teaserDivText"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".teaserDivText",
+          "css": "color:blue;"
+        }
+      ],
+      "childElementIds": ["teaserText"]
+    },
+    "teaserText": {
+      "type": "text",
+      "value": "Teaser"
+    }
+  }
+}

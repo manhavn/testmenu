@@ -1,0 +1,86 @@
+{
+  "popupLayout": {
+    "childElementIds": ["popupLayout01"]
+  },
+  "childElements": {
+    "popupLayout01": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "popupLayout01"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".popupLayout01",
+          "css": "position: fixed; width: 800px; height: 500px; background: #0ff; display: flex;"
+        }
+      ],
+      "childElementIds": ["leftPopupLayout01", "rightPopupLayout01"]
+    },
+    "leftPopupLayout01": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "droptype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "leftPopupLayout01"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".leftPopupLayout01",
+          "css": "color:blue; width:50%; height:100%; background:#0bb"
+        }
+      ],
+      "childElementIds": []
+    },
+    "rightPopupLayout01": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "droptype",
+          "value": "popup-image-layout"
+        },
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "rightPopupLayout01"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".rightPopupLayout01",
+          "css": "color:green; width:50%; height:100%; background:#0aa"
+        }
+      ],
+      "childElementIds": ["rightText"]
+    },
+    "rightText": {
+      "type": "text",
+      "value": "rightText"
+    }
+  }
+}
