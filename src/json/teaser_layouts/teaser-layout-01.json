@@ -47,7 +47,7 @@
     },
     "teaserLayout01testText": {
       "type": "text",
-      "value": "teaserLayout01testText"
+      "value": "teaserLayout01testText 11111111"
     },
     "teaserDivText": {
       "type": "tag",
@@ -72,7 +72,7 @@
     },
     "teaserText": {
       "type": "text",
-      "value": "Teaser"
+      "value": "Teaser 11111111"
     }
   }
 }

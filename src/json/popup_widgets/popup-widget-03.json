@@ -1,0 +1,77 @@
+{
+  "popupWidget": {
+    "childElementIds": ["popupWidget03"]
+  },
+  "childElements": {
+    "popupWidget03": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "dragtype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "popupWidget03"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".popupWidget03",
+          "css": "color: green;"
+        }
+      ],
+      "childElementIds": ["div03", "div02"]
+    },
+    "div03": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [],
+      "style": [],
+      "childElementIds": ["div0303"]
+    },
+    "div0303": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [],
+      "style": [],
+      "childElementIds": ["div0303text"]
+    },
+    "div0303text": {
+      "type": "text",
+      "value": "div-03-03-text 3333333333"
+    },
+    "div02": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "popup-widget-03-div-02"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".popup-widget-03-div-02",
+          "css": "color: red;"
+        }
+      ],
+      "childElementIds": ["div02text"]
+    },
+    "div02text": {
+      "type": "text",
+      "value": "div-02-text 3333333333"
+    }
+  }
+}

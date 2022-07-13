@@ -1,0 +1,265 @@
+{
+  "popupLayout": {
+    "childElementIds": ["popupLayout02"]
+  },
+  "childElements": {
+    "popupLayout02": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Modal"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Modal",
+          "css": "position: relative;    max-width: 830px;    height: 505px;    width: 100%;    display: flex;    flex-direction: column;    box-shadow: 0 4px 15px hsl(0deg 0% 51% / 25%);    background-image: url(http://localhost:9999/images/Bg.png);    background-repeat: no-repeat;"
+        }
+      ],
+      "childElementIds": ["CloseBtn", "BodyWrapper"]
+    },
+    "CloseBtn": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "CloseBtn"
+        }
+      ],
+      "script": "document.querySelector('[class=\"CloseBtn\"]').onmouseover=ev=>{console.log(ev)}",
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn",
+          "css": "position: absolute;    right: -8px;    top: -8px;    background: #fff;    width: 28px;    height: 28px;    border-radius: 50%;    display: flex;    align-items: center;    justify-content: center;    box-shadow: 0 4px 15px hsl(0deg 0% 51% / 25%);    cursor: pointer;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn svg",
+          "css": "width: 13px;    height: 13px;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn svg line",
+          "css": "stroke:#380701;"
+        }
+      ],
+      "childElementIds": ["svg"]
+    },
+    "svg": {
+      "type": "svg",
+      "value": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 41.656 41.657\"><g id=\"Group_1205\" data-name=\"Group 1205\" transform=\"translate(-15.972 -15.972)\"><line id=\"Line_1\" data-name=\"Line 1\" x2=\"36\" y2=\"36\" transform=\"translate(18.8 18.8)\" fill=\"none\" stroke=\"#FFFFFF\" stroke-miterlimit=\"10\" stroke-width=\"5\"></line><line id=\"Line_2\" data-name=\"Line 2\" y2=\"36\" transform=\"translate(18.8 18.8)\" fill=\"none\" stroke=\"#FFFFFF\" stroke-miterlimit=\"10\" stroke-width=\"5\" x1=\"36\"></line></g></svg>"
+    },
+    "BodyWrapper": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "BodyWrapper"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".BodyWrapper",
+          "css": "height: 100%;    display: flex;    flex-direction: column;    align-items: flex-start;    justify-content: center;    padding: 23px;    background: linear-gradient(270deg,hsla(0,0%,100%,0) 41%,#fff 64%);"
+        }
+      ],
+      "childElementIds": ["Border"]
+    },
+    "Border": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "droptype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Border"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Border",
+          "css": "display: flex;    flex-direction: column;    align-items: flex-start;    justify-content: center;    border: 3px solid #fff;    width: 100%;    height: 100%;    padding-left: 27px;    box-sizing: border-box;"
+        }
+      ],
+      "childElementIds": ["Header", "Description", "Main"]
+    },
+    "Header": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Header"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Header",
+          "css": "letter-spacing: .02em;    font-size: 40px;    line-height: 40px;    font-weight: 700;    color: #510C05;    max-width: 380px;    text-transform: uppercase;    overflow: hidden;"
+        }
+      ],
+      "childElementIds": ["textHeader"]
+    },
+    "textHeader": {
+      "type": "text",
+      "value": "JOIN US TODAY!"
+    },
+    "Description": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Description"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Description",
+          "css": "font-size: 18px;    color: #333;    color:#510C05;    font-weight: 400;    margin-top: 16px;    overflow: hidden;    max-width: 315px;    line-height: 24px;    text-align: left;"
+        }
+      ],
+      "childElementIds": ["textDescription"]
+    },
+    "textDescription": {
+      "type": "text",
+      "value": "You only need to leave your email here and enjoy many offers every day"
+    },
+    "Main": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Main"
+        }
+      ],
+      "style": [],
+      "childElementIds": ["Subscribe"]
+    },
+    "Subscribe": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Subscribe"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Subscribe",
+          "css": "min-width: 311px;    margin: 30px auto auto;    width: 100%;"
+        }
+      ],
+      "childElementIds": ["TextField", "Btn"]
+    },
+    "TextField": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "TextField"
+        }
+      ],
+      "style": [],
+      "childElementIds": ["Input"]
+    },
+    "Input": {
+      "type": "tag",
+      "tagName": "input",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Input"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "placeholder",
+          "value": "Enter your email"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Input",
+          "css": "font-weight: 400;    border: none;    text-transform: none;    letter-spacing: normal;    position: relative;    display: flex;    align-items: center;    cursor: text;    width: 100%;    line-height: 2.4rem;    border: none;    border-radius: 0;    outline: none;    background: transparent;    border-bottom: 1px solid #380701;"
+        }
+      ],
+      "childElementIds": []
+    },
+    "Btn": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Btn"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Btn",
+          "css": "margin-top: 20px;    padding: 7px 20px;    height: 38px;    width: 180px;    display: flex;    align-items: center;    justify-content: center;    font-size: 16px;    text-align: center;    background-color: #fff;    color: #510C05;    font-weight: 500;    border: 1px solid #510C05;    cursor: pointer;    border-radius: 30px;    margin-left: 4px;"
+        }
+      ],
+      "childElementIds": ["textBtn"]
+    },
+    "textBtn": {
+      "type": "text",
+      "value": "SIGN UP"
+    }
+  }
+}

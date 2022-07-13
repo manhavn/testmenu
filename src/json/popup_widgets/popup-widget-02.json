@@ -1,0 +1,77 @@
+{
+  "popupWidget": {
+    "childElementIds": ["popupWidget02"]
+  },
+  "childElements": {
+    "popupWidget02": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "dragtype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "popupWidget02"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".popupWidget02",
+          "css": "color: green;"
+        }
+      ],
+      "childElementIds": ["div02", "div0202"]
+    },
+    "div02": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [],
+      "style": [],
+      "childElementIds": ["div020202"]
+    },
+    "div020202": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [],
+      "style": [],
+      "childElementIds": ["div0202text"]
+    },
+    "div0202text": {
+      "type": "text",
+      "value": "div-02-02-text 22222222222"
+    },
+    "div0202": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "popup-widget-02-div-02"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".popup-widget-02-div-02",
+          "css": "color: red;"
+        }
+      ],
+      "childElementIds": ["div02text"]
+    },
+    "div02text": {
+      "type": "text",
+      "value": "div-02-text 22222222222"
+    }
+  }
+}

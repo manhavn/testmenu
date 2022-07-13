@@ -1,0 +1,86 @@
+{
+  "popupLayout": {
+    "childElementIds": ["popupLayout04"]
+  },
+  "childElements": {
+    "popupLayout04": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "popupLayout04"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".popupLayout04",
+          "css": "position: fixed; width: 800px; height: 500px; background: #0ff; display: flex;"
+        }
+      ],
+      "childElementIds": ["leftPopupLayout04", "rightPopupLayout04"]
+    },
+    "leftPopupLayout04": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "droptype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "leftPopupLayout04"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".leftPopupLayout04",
+          "css": "color:blue; width:50%; height:100%; background:#0bb"
+        }
+      ],
+      "childElementIds": []
+    },
+    "rightPopupLayout04": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "droptype",
+          "value": "popup-image-layout"
+        },
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "rightPopupLayout04"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".rightPopupLayout04",
+          "css": "color:green; width:50%; height:100%; background:#0aa"
+        }
+      ],
+      "childElementIds": ["rightText"]
+    },
+    "rightText": {
+      "type": "text",
+      "value": "rightText44444"
+    }
+  }
+}

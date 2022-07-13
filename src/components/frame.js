@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import Header from "./header";
 import Menu from "./menu";
@@ -14,7 +15,7 @@ import {
   MAIN_TYPE,
   TEASER_BACKGROUND,
   POPUP_BACKGROUND,
-  TEMPLATES,
+  TEMPLATE,
   MOVETYPE,
 } from "../define/consts";
 
@@ -30,9 +31,8 @@ import {
   moving,
   setAfterBeforeAppend,
   emptyString,
+  lastChild,
 } from "../define/functions";
-
-import dataJson from "../json/popup-shop-custom.json";
 
 const styleOutlineMain = "#f00 2px solid";
 const styleOutlineMainDrop = "#00f 1px dashed";
@@ -41,7 +41,7 @@ const navList = [
   { name: "Teaser", value: TEASER_LAYOUT },
   { name: "Popup", value: POPUP_LAYOUT },
   { name: "Widget", value: POPUP_WIDGET },
-  { name: "Templs", value: TEMPLATES },
+  { name: "Templs", value: TEMPLATE },
 ];
 
 export default function Frame() {
@@ -63,13 +63,21 @@ export default function Frame() {
 
   const [dragenter, setDragenter] = useState(null);
   const [dragover, setDragover] = useState(null);
-  const [dragElementOver, setDragElementOver] = useState(null);
 
+  const [dragElementOver, setDragElementOver] = useState(null);
   const [dragElementOverY, setDragElementOverY] = useState(null);
 
   const [srcDoc, setSrcDoc] = useState(null);
 
   const [moveFixedData, setMoveFixedData] = useState(null);
+
+  const [dataJson, setDataJson] = useState(null);
+  const [teaserLayout, setTeaserLayout] = useState(null);
+  const [popupLayout, setPopupLayout] = useState(null);
+  const [popupWidget, setPopupWidget] = useState(null);
+  const [template, setTemplate] = useState(null);
+
+  const [dragId, setDragId] = useState("");
 
   useEffect(() => {
     if (iframeWebWindow) {
@@ -101,77 +109,71 @@ export default function Frame() {
         setSelected("");
       };
 
-      contentWindow.onmouseover = () => setResetDragData((v) => !v);
-      contentWindow.onmouseout = () => setResetDragData((v) => !v);
-
-      contentWindow.onresize = function () {
-        const { innerWidth, innerHeight } = contentWindow;
-        console.log(innerWidth, innerHeight);
-      };
-
       body.onmouseover = ({ target, layerX, layerY }) => {
         const mainId = target.getAttribute(MAINID);
         const documentIframe = contentWindow.document;
 
         if (mainId) {
           const mainElement = documentIframe.getElementById(mainId);
-          mainElement.style.outline = styleOutlineMain;
-          if (mainElement.contains(target)) {
-            target.onmousedown = () => {
-              const dropNameType = mainElement.getAttribute(DRAGTYPE);
-              if (dropNameType) {
+          if (mainElement) {
+            mainElement.style.outline = styleOutlineMain;
+            if (mainElement.contains(target)) {
+              target.onmousedown = () => {
+                const dropNameType = mainElement.getAttribute(DRAGTYPE);
+                if (dropNameType) {
+                  documentIframe
+                    .querySelectorAll(`[${DROPTYPE}="${dropNameType}"]`)
+                    .forEach((value) => {
+                      value.style.outline = styleOutlineMainDrop;
+                      value.style.zIndex = 999;
+                    });
+
+                  mainElement.ondragstart = setIframeDragStart;
+                  mainElement.ondragend = setIframeDragEnd;
+                  iframeBodyOnMousedown(mainElement, contentWindow);
+                }
+                const moveNameType = mainElement.getAttribute(MOVETYPE);
+                switch (moveNameType) {
+                  case TEASER_LAYOUT:
+                    const { style, offsetWidth, offsetHeight, onclick } =
+                      mainElement;
+                    setMoveFixedData({
+                      style,
+                      offsetWidth,
+                      offsetHeight,
+                      layerX,
+                      layerY,
+                      mainElement,
+                      onclick,
+                    });
+                    break;
+                  default:
+                    break;
+                }
+              };
+              target.onmouseup = () => {
                 documentIframe
-                  .querySelectorAll(`[${DROPTYPE}="${dropNameType}"]`)
+                  .querySelectorAll(`[${DROPTYPE}]`)
                   .forEach((value) => {
-                    value.style.outline = styleOutlineMainDrop;
-                    value.style.zIndex = 999;
+                    value.style.outline = "";
+                    value.style.zIndex = "";
                   });
 
-                mainElement.ondragstart = setIframeDragStart;
-                mainElement.ondragend = setIframeDragEnd;
-                iframeBodyOnMousedown(mainElement, contentWindow);
-              }
-              const moveNameType = mainElement.getAttribute(MOVETYPE);
-              switch (moveNameType) {
-                case TEASER_LAYOUT:
-                  const { style, offsetWidth, offsetHeight, onclick } =
-                    mainElement;
-                  setMoveFixedData({
-                    style,
-                    offsetWidth,
-                    offsetHeight,
-                    layerX,
-                    layerY,
-                    mainElement,
-                    onclick,
-                  });
-                  break;
-                default:
-                  break;
-              }
-            };
-            target.onmouseup = () => {
-              documentIframe
-                .querySelectorAll(`[${DROPTYPE}]`)
-                .forEach((value) => {
-                  value.style.outline = "";
-                  value.style.zIndex = "";
-                });
-
-              mainElement.ondragstart = null;
-              mainElement.ondragend = null;
-              mainElement.removeAttribute(DRAGGABLE);
-            };
-            target.onclick = () => {
-              console.log(mainId);
-            };
-            mainElement.onmouseout = () => {
-              mainElement.style.outline = "";
-              mainElement.onmouseout = null;
-              target.onmousedown = null;
-              target.onmouseup = null;
-              target.onclick = null;
-            };
+                mainElement.ondragstart = null;
+                mainElement.ondragend = null;
+                mainElement.removeAttribute(DRAGGABLE);
+              };
+              target.onclick = () => {
+                console.log(mainId);
+              };
+              mainElement.onmouseout = () => {
+                mainElement.style.outline = "";
+                mainElement.onmouseout = null;
+                target.onmousedown = null;
+                target.onmouseup = null;
+                target.onclick = null;
+              };
+            }
           }
         }
       };
@@ -300,6 +302,9 @@ export default function Frame() {
             `[${MAIN_TYPE}="${POPUP_BACKGROUND}"]`
           ).style = {};
           break;
+        case TEMPLATE:
+          console.log(TEMPLATE);
+          break;
         default:
           break;
       }
@@ -312,13 +317,20 @@ export default function Frame() {
       setSelected("");
       setIframeDragStart("");
       setIframeDragEnd("");
+      setResetDragData((v) => !v);
 
-      const dropNameType = menuDragStart.target.getAttribute(DRAGTYPE);
+      const { target } = menuDragStart;
+      const dropNameType = target.getAttribute(DRAGTYPE);
       if (dropNameType) {
+        let url;
+        const hostApi = "http://localhost:9999";
+
         const documentIframe = contentWindow.document;
         let elementBackground;
         switch (dropNameType) {
           case TEASER_LAYOUT:
+            url = `${hostApi}/teaser_layouts/${target.id}.json`;
+
             elementBackground = documentIframe.querySelector(
               `[${MAIN_TYPE}="${TEASER_BACKGROUND}"]`
             );
@@ -328,12 +340,16 @@ export default function Frame() {
             elementBackground.style.backgroundColor = "rgba(0,255,166,0.24)";
             break;
           case POPUP_LAYOUT:
+            url = `${hostApi}/popup_layouts/${target.id}.json`;
+
             elementBackground = documentIframe.querySelector(
               `[${MAIN_TYPE}="${POPUP_BACKGROUND}"]`
             );
             elementBackground.style.backgroundColor = "rgba(0,255,0,0.24)";
             break;
-          default:
+          case POPUP_WIDGET:
+            url = `${hostApi}/popup_widgets/${target.id}.json`;
+
             documentIframe
               .querySelectorAll(`[${DROPTYPE}="${dropNameType}"]`)
               .forEach((value) => {
@@ -341,17 +357,54 @@ export default function Frame() {
                 value.style.zIndex = 999;
               });
             break;
+          case TEMPLATE:
+            url = `${hostApi}/templates/${target.id}.json`;
+
+            console.log("menuDragStart: ", TEMPLATE);
+            break;
+          default:
+            break;
         }
+        fetch(url)
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            switch (dropNameType) {
+              case TEASER_LAYOUT:
+                setTeaserLayout(data);
+                break;
+              case POPUP_LAYOUT:
+                setPopupLayout(data);
+                break;
+              case POPUP_WIDGET:
+                setPopupWidget(data);
+                break;
+              case TEMPLATE:
+                setTemplate(data);
+                break;
+              default:
+                break;
+            }
+            setDragId(target.id);
+          });
       }
     }
   }, [contentWindow, menuDragStart]);
 
   useEffect(() => {
-    if (menuDragEnd && dragenter && contentWindow) {
+    if (dragId && menuDragEnd && dragenter && contentWindow && dataJson) {
+      setDragId("");
       const { target } = dragenter;
       const { target: targetDrag } = menuDragEnd;
       if (targetDrag.getAttribute(DRAGTYPE) === target.getAttribute(DROPTYPE)) {
-        dragging(target, targetDrag, contentWindow);
+        dragging(target, targetDrag, contentWindow, {
+          dataJson,
+          teaserLayout,
+          popupLayout,
+          popupWidget,
+          template,
+        });
       } else {
         contentWindow.document
           .querySelectorAll(
@@ -369,30 +422,59 @@ export default function Frame() {
               }
               if (dropChild) {
                 const moveName = dragElementOverY ? after : before;
-                dragging(dropChild, targetDrag, contentWindow, moveName);
+                dragging(
+                  dropChild,
+                  targetDrag,
+                  contentWindow,
+                  {
+                    dataJson,
+                    teaserLayout,
+                    popupLayout,
+                    popupWidget,
+                    template,
+                  },
+                  moveName
+                );
               } else {
-                dragging(value, targetDrag, contentWindow);
+                dragging(value, targetDrag, contentWindow, {
+                  dataJson,
+                  teaserLayout,
+                  popupLayout,
+                  popupWidget,
+                  template,
+                });
               }
             }
           });
       }
-
       setDragenter(null);
       setMouseDown("");
       setSelected("");
       setMenuDragEnd(null);
     }
-  }, [contentWindow, dragElementOverY, dragenter, menuDragEnd]);
+  }, [
+    contentWindow,
+    dataJson,
+    dragElementOverY,
+    dragId,
+    dragenter,
+    menuDragEnd,
+    popupLayout,
+    popupWidget,
+    teaserLayout,
+    template,
+  ]);
 
   useEffect(() => {
     if (iframeDragEnd && iframeDragStart && dragenter && contentWindow) {
       const { target } = dragenter;
       const { target: targetDrag } = iframeDragStart;
+      let moveName = lastChild;
       if (targetDrag !== target) {
         if (
           targetDrag.getAttribute(DRAGTYPE) === target.getAttribute(DROPTYPE)
         ) {
-          moving(target, targetDrag, contentWindow);
+          moving(target, targetDrag, contentWindow, dataJson, moveName);
         } else {
           contentWindow.document
             .querySelectorAll(
@@ -409,7 +491,6 @@ export default function Frame() {
                   }
                 }
                 if (dropChild) {
-                  let moveName;
                   switch (true) {
                     case targetDrag.nextSibling === dropChild:
                       moveName = after;
@@ -421,9 +502,15 @@ export default function Frame() {
                       moveName = dragElementOverY ? after : before;
                       break;
                   }
-                  moving(dropChild, targetDrag, contentWindow, moveName);
+                  moving(
+                    dropChild,
+                    targetDrag,
+                    contentWindow,
+                    dataJson,
+                    moveName
+                  );
                 } else {
-                  moving(value, targetDrag, contentWindow);
+                  moving(value, targetDrag, contentWindow, dataJson, moveName);
                 }
               }
             });
@@ -435,6 +522,7 @@ export default function Frame() {
     }
   }, [
     contentWindow,
+    dataJson,
     dragElementOverY,
     dragenter,
     iframeDragEnd,
@@ -442,14 +530,14 @@ export default function Frame() {
   ]);
 
   useEffect(() => {
-    if (dragenter && contentWindow) {
+    if (dragenter && contentWindow && iframeDragStart) {
       let setOver;
       setDragElementOverY(true);
 
-      const { target } = dragenter;
       const dragElementOver = contentWindow.document.querySelectorAll(
-        `[${DRAGTYPE}="${target.getAttribute(DRAGTYPE)}"]`
+        `[${DRAGTYPE}="${iframeDragStart.target.getAttribute(DRAGTYPE)}"]`
       );
+      const { target } = dragenter;
       for (let i = 0; i < dragElementOver.length; i++) {
         const value = dragElementOver[i];
         if (value.contains(target)) {
@@ -460,7 +548,7 @@ export default function Frame() {
       }
       if (!setOver) setDragElementOver(null);
     }
-  }, [contentWindow, dragenter]);
+  }, [contentWindow, dragenter, iframeDragStart]);
 
   useEffect(() => {
     if (dragElementOver && dragover) {
@@ -469,57 +557,105 @@ export default function Frame() {
   }, [dragElementOver, dragover]);
 
   useEffect(() => {
-    const headElement = document.createElement("head");
-    addStringDataToHtml(`<style>body{background: white}</style>`, headElement);
+    if (dataJson) {
+      const headElement = document.createElement("head");
+      addStringDataToHtml(
+        `<style>body{background: white}</style>`,
+        headElement
+      );
 
-    const bodyElement = document.createElement("body");
+      const bodyElement = document.createElement("body");
 
-    const { teaserScreenBackground, popupScreenBackground, childElements } =
-      dataJson;
-    if (teaserScreenBackground) {
-      const { childElementIds } = teaserScreenBackground;
-      const teaserBackground = jsonElementToHtml(teaserScreenBackground);
-      bodyElement.appendChild(teaserBackground);
+      const { teaserScreenBackground, popupScreenBackground, childElements } =
+        dataJson;
+      if (teaserScreenBackground) {
+        const { childElementIds } = teaserScreenBackground;
+        const teaserBackground = jsonElementToHtml(teaserScreenBackground);
+        bodyElement.appendChild(teaserBackground);
 
-      if (childElementIds.length > 0) {
-        teaserBackground.removeAttribute(DROPTYPE);
-        jsonAppendDataHtmlByID({
-          childElementIds,
-          parentElement: teaserBackground,
-          childElements,
-        });
-      } else {
-        teaserBackground.setAttribute(DROPTYPE, TEASER_LAYOUT);
+        if (childElementIds.length > 0) {
+          teaserBackground.removeAttribute(DROPTYPE);
+          childElementIds.forEach((value) => {
+            jsonAppendDataHtmlByID({
+              originData: dataJson,
+              originName: value,
+              newChildData: dataJson,
+              newChildElement: childElements[value],
+
+              parentElement: teaserBackground,
+              addNewElement: false,
+            });
+          });
+        } else {
+          teaserBackground.setAttribute(DROPTYPE, TEASER_LAYOUT);
+        }
       }
-    }
-    if (popupScreenBackground) {
-      const { childElementIds } = popupScreenBackground;
-      const popupBackground = jsonElementToHtml(popupScreenBackground);
-      bodyElement.appendChild(popupBackground);
+      if (popupScreenBackground) {
+        const { childElementIds } = popupScreenBackground;
+        const popupBackground = jsonElementToHtml(popupScreenBackground);
+        bodyElement.appendChild(popupBackground);
 
-      if (childElementIds.length > 0) {
-        popupBackground.removeAttribute(DROPTYPE);
-        jsonAppendDataHtmlByID({
-          childElementIds,
-          parentElement: popupBackground,
-          childElements,
-        });
-      } else {
-        popupBackground.setAttribute(DROPTYPE, POPUP_LAYOUT);
+        if (childElementIds.length > 0) {
+          popupBackground.removeAttribute(DROPTYPE);
+          childElementIds.forEach((value) => {
+            jsonAppendDataHtmlByID({
+              originData: dataJson,
+              originName: value,
+              newChildData: dataJson,
+              newChildElement: childElements[value],
+
+              parentElement: popupBackground,
+              addNewElement: false,
+            });
+          });
+        } else {
+          popupBackground.setAttribute(DROPTYPE, POPUP_LAYOUT);
+        }
       }
+
+      const srcDocData = document.createElement("div");
+      srcDocData.appendChild(headElement);
+      srcDocData.appendChild(bodyElement);
+
+      setSrcDoc(srcDocData.innerHTML);
+      srcDocData.remove();
     }
+  }, [dataJson]);
 
-    const srcDocData = document.createElement("div");
-    srcDocData.appendChild(headElement);
-    srcDocData.appendChild(bodyElement);
-
-    setSrcDoc(srcDocData.innerHTML);
-    srcDocData.remove();
+  useEffect(() => {
+    fetch("http://localhost:9999/popup-shop-custom.json")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setDataJson(data);
+      })
+      .catch();
   }, []);
+
+  function exportSettings() {
+    console.log(JSON.stringify(dataJson));
+  }
+
+  function loadDefaultSettings() {
+    setDataJson(null);
+    setSrcDoc(null);
+    fetch("http://localhost:9999/default-data.json")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setDataJson(data);
+      })
+      .catch();
+  }
 
   return (
     <>
-      <Header />
+      <Header
+        exportSettings={exportSettings}
+        loadDefaultSettings={loadDefaultSettings}
+      />
       <div
         className={"desktop"}
         onClick={() => {

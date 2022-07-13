@@ -1,7 +1,7 @@
 export const TEASER_LAYOUT = "teaser-layout";
 export const POPUP_LAYOUT = "popup-layout";
 export const POPUP_WIDGET = "popup-widget";
-export const TEMPLATES = "templates";
+export const TEMPLATE = "template";
 
 export const MOVETYPE = "movetype";
 export const DROPTYPE = "droptype";

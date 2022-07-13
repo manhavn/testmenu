@@ -12,81 +12,154 @@ import {
   POPUP_WIDGET,
   TEASER_BACKGROUND,
   TEASER_LAYOUT,
+  TEMPLATE,
 } from "./consts";
-
-import dataJson from "../json/popup-shop-custom.json";
-import teaserLayout from "../json/teaser_layouts/teaser-layout-01.json";
-import popupLayout from "../json/popup_layouts/popup-layout-01.json";
-import popupWidget from "../json/popup_widgets/popup-widget-01.json";
 
 export const iframeState = getNewTimeString();
 export const iframeMainElementSelected = getNewTimeString("imes");
 
 export const after = "after";
 export const before = "before";
+export const lastChild = "lastChild";
+export const firstChild = "firstChild";
 export const emptyString = "";
 
 export function jsonAppendDataHtmlByID({
-  childElementIds,
+  originData,
+  originName,
+  newChildData,
+  newChildElement,
+
   parentElement,
-  childElements,
   mainId,
-  id,
   layoutType,
   dragType,
   dropType,
   moveType,
+  addNewElement,
 }) {
-  childElementIds.forEach((value) => {
-    const dataElement = childElements[value];
-    switch (dataElement.type) {
-      case "text":
-        parentElement.innerHTML += dataElement.value;
-        break;
-      case "tag":
-        const { childElementIds } = dataElement;
-        const element = document.createElement(dataElement.tagName);
+  switch (newChildElement.type) {
+    case "text":
+    case "svg":
+      parentElement.innerHTML += newChildElement.value;
+      originData.childElements[originName] = {
+        ...newChildElement,
+      };
+      break;
+    case "tag":
+      const { childElementIds } = newChildElement;
+      const element = document.createElement(newChildElement.tagName);
 
-        // setAttribute
-        if (mainId) element.setAttribute(MAINID, mainId);
-        if (id) {
-          element.setAttribute(ELEMENT_ID, id);
-        } else {
-          element.setAttribute(ELEMENT_ID, new Date().getTime().toString());
+      // setAttribute
+      const attributes = newChildElement.attribute || [];
+      attributes.forEach(({ name, value }) => {
+        element.setAttribute(name, value);
+      });
+
+      if (addNewElement) {
+        newChildElement.attribute = attributes;
+        if (mainId) {
+          element.setAttribute(MAINID, mainId);
+          newChildElement.attribute.push({
+            editName: false,
+            editValue: false,
+            name: MAINID,
+            value: mainId,
+          });
         }
-        (dataElement.attribute || []).forEach(({ name, value }) => {
-          element.setAttribute(name, value);
+        if (originName) {
+          element.setAttribute(ELEMENT_ID, originName);
+          newChildElement.attribute.push({
+            editName: false,
+            editValue: false,
+            name: ELEMENT_ID,
+            value: originName,
+          });
+        }
+        if (layoutType) {
+          element.setAttribute(LAYOUT_TYPE, layoutType);
+          newChildElement.attribute.push({
+            editName: false,
+            editValue: false,
+            name: LAYOUT_TYPE,
+            value: layoutType,
+          });
+        }
+        if (dragType) {
+          element.setAttribute(DRAGTYPE, dragType);
+          newChildElement.attribute.push({
+            editName: false,
+            editValue: false,
+            name: DRAGTYPE,
+            value: dragType,
+          });
+        }
+        if (dropType) {
+          element.setAttribute(DROPTYPE, dropType);
+          newChildElement.attribute.push({
+            editName: false,
+            editValue: false,
+            name: DROPTYPE,
+            value: dropType,
+          });
+        }
+        if (moveType) {
+          element.setAttribute(MOVETYPE, moveType);
+          newChildElement.attribute.push({
+            editName: false,
+            editValue: false,
+            name: MOVETYPE,
+            value: moveType,
+          });
+        }
+      }
+      // setAttribute
+
+      // Style
+      const styles = newChildElement.style || [];
+      if (styles.length > 0) {
+        const styleElement = document.createElement("style");
+        styles.forEach(({ location, css }) => {
+          styleElement.innerHTML += `${location} { ${css} } `;
         });
-        if (layoutType) element.setAttribute(LAYOUT_TYPE, layoutType);
-        if (dragType) element.setAttribute(DRAGTYPE, dragType);
-        if (dropType) element.setAttribute(DROPTYPE, dropType);
-        if (moveType) element.setAttribute(MOVETYPE, moveType);
-        // setAttribute
+        element.appendChild(styleElement);
+      }
+      // Style
 
-        // Style
-        if (dataElement.style.length > 0) {
-          const styleElement = document.createElement("style");
-          (dataElement.style || []).forEach(({ location, css }) => {
-            styleElement.innerHTML += `${location} { ${css} } `;
-          });
-          element.appendChild(styleElement);
-        }
-        // Style
+      // script
+      if (newChildElement.script) {
+        const scriptElement = document.createElement("script");
+        scriptElement.innerHTML = newChildElement.script;
+        element.appendChild(scriptElement);
+      }
+      // script
 
-        if (childElementIds.length > 0) {
+      originData.childElements[originName] = {
+        ...newChildElement,
+        childElementIds: [],
+      };
+
+      if (childElementIds.length > 0) {
+        childElementIds.forEach((value, index) => {
+          const newChildId = `${originName}-${index}`;
+          originData.childElements[originName].childElementIds.push(newChildId);
           jsonAppendDataHtmlByID({
-            childElementIds,
+            originData,
+            originName: newChildId,
+            newChildData,
+            newChildElement: newChildData.childElements[value],
+
             parentElement: element,
-            childElements,
             mainId,
+            addNewElement,
           });
-        }
-        parentElement.appendChild(element);
-        break;
-      default:
-        break;
-    }
-  });
+        });
+      }
+      parentElement.appendChild(element);
+      break;
+    default:
+      break;
+  }
 }
 
 export function addStringDataToHtml(stringData, element) {
@@ -123,25 +196,82 @@ export function iframeBodyOnMousedown(mainElement, contentWindow) {
   }
 }
 
-export function insertElementToElement(drop, drag, moveName, contentWindow) {
+export function insertElementToElement(
+  drop,
+  drag,
+  contentWindow,
+  dataJson,
+  moveName
+) {
+  let arr;
+  let childElements;
+  const newArray = [];
   switch (moveName) {
     case after:
+      childElements = dataJson.childElements[drop.parentElement.id];
+      arr = childElements.childElementIds;
+      const nextItem = (drop.nextSibling && drop.nextSibling.id) || drop.id;
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === nextItem) {
+          if (drop.nextSibling) {
+            newArray.push(drag.id);
+            newArray.push(nextItem);
+          } else {
+            newArray.push(nextItem);
+            newArray.push(drag.id);
+          }
+        } else if (arr[i] !== drag.id) {
+          newArray.push(arr[i]);
+        }
+      }
       drop.parentElement.insertBefore(drag, drop.nextSibling);
       break;
     case before:
+      childElements = dataJson.childElements[drop.parentElement.id];
+      arr = childElements.childElementIds;
+      const prevItem = drop.id;
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === prevItem) {
+          newArray.push(drag.id);
+          newArray.push(prevItem);
+        } else if (arr[i] !== drag.id) {
+          newArray.push(arr[i]);
+        }
+      }
       drop.parentElement.insertBefore(drag, drop);
       break;
+    case firstChild:
+      childElements = dataJson.childElements[drop.id];
+      arr = childElements.childElementIds;
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] !== drag.id) {
+          newArray.push(arr[i]);
+        }
+      }
+      newArray.unshift(drag.id);
+      drop.appendChild(drag);
+      break;
     default:
+    case lastChild:
+      childElements = dataJson.childElements[drop.id];
+      arr = childElements.childElementIds;
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] !== drag.id) {
+          newArray.push(arr[i]);
+        }
+      }
+      newArray.push(drag.id);
       drop.appendChild(drag);
       break;
   }
+  if (childElements) childElements.childElementIds = newArray;
   contentWindow.document
     .querySelectorAll(`[${DROPTYPE}]`)
     .forEach((value) => (value.style = {}));
 }
 
-export function moving(drop, drag, contentWindow, moveName) {
-  insertElementToElement(drop, drag, moveName, contentWindow);
+export function moving(drop, drag, contentWindow, dataJson, moveName) {
+  insertElementToElement(drop, drag, contentWindow, dataJson, moveName);
   if (contentWindow[iframeState]) {
     const mainElement = contentWindow[iframeState][iframeMainElementSelected];
     if (mainElement) {
@@ -156,7 +286,14 @@ export function moving(drop, drag, contentWindow, moveName) {
   }
 }
 
-export function dragging(drop, drag, contentWindow, moveName) {
+export function dragging(
+  drop,
+  drag,
+  contentWindow,
+  { dataJson, teaserLayout, popupLayout, popupWidget, template },
+  moveName
+) {
+  if (moveName) console.log("moveName src/define/functions.js 237", moveName);
   const documentIframe = contentWindow.document;
   const newElementId = new Date().getTime().toString();
   switch (drag.getAttribute(DRAGTYPE)) {
@@ -167,26 +304,20 @@ export function dragging(drop, drag, contentWindow, moveName) {
         value.style.display = display;
       });
       drop.removeAttribute(DROPTYPE);
-      console.log(drag.id);
-      // const popupLayout = JSON.parse(``);
-      dataJson.teaserScreenBackground.childElementIds = [newElementId];
       teaserLayout.teaserLayout.childElementIds.forEach((value) => {
-        dataJson.childElements[newElementId] =
-          teaserLayout.childElements[value];
-      });
-      dataJson.childElements = {
-        ...dataJson.childElements,
-        ...teaserLayout.childElements,
-      };
+        dataJson.teaserScreenBackground.childElementIds = [newElementId];
+        jsonAppendDataHtmlByID({
+          originData: dataJson,
+          originName: newElementId,
+          newChildData: teaserLayout,
+          newChildElement: teaserLayout.childElements[value],
 
-      jsonAppendDataHtmlByID({
-        childElementIds: dataJson.teaserScreenBackground.childElementIds,
-        parentElement: drop,
-        childElements: dataJson.childElements,
-        mainId: newElementId,
-        id: newElementId,
-        layoutType: drag.id,
-        moveType: TEASER_LAYOUT,
+          parentElement: drop,
+          mainId: newElementId,
+          layoutType: drag.id,
+          moveType: TEASER_LAYOUT,
+          addNewElement: true,
+        });
       });
       documentIframe.querySelector(
         `[${MAIN_TYPE}="${TEASER_BACKGROUND}"]`
@@ -199,45 +330,45 @@ export function dragging(drop, drag, contentWindow, moveName) {
         value.style.display = display;
       });
       drop.removeAttribute(DROPTYPE);
-      console.log(drag.id);
-      // const popupLayout = JSON.parse(``);
-      dataJson.popupScreenBackground.childElementIds = [newElementId];
       popupLayout.popupLayout.childElementIds.forEach((value) => {
-        dataJson.childElements[newElementId] = popupLayout.childElements[value];
-      });
-      dataJson.childElements = {
-        ...dataJson.childElements,
-        ...popupLayout.childElements,
-      };
+        dataJson.popupScreenBackground.childElementIds = [newElementId];
+        jsonAppendDataHtmlByID({
+          originData: dataJson,
+          originName: newElementId,
+          newChildData: popupLayout,
+          newChildElement: popupLayout.childElements[value],
 
-      jsonAppendDataHtmlByID({
-        childElementIds: dataJson.popupScreenBackground.childElementIds,
-        parentElement: drop,
-        childElements: dataJson.childElements,
-        mainId: newElementId,
-        id: newElementId,
-        layoutType: drag.id,
+          parentElement: drop,
+          mainId: newElementId,
+          layoutType: drag.id,
+          addNewElement: true,
+        });
       });
       documentIframe.querySelector(
         `[${MAIN_TYPE}="${POPUP_BACKGROUND}"]`
       ).style = {};
       break;
     case POPUP_WIDGET:
-      const temp = document.createElement("div");
-      jsonAppendDataHtmlByID({
-        childElementIds: popupWidget.popupWidget.childElementIds,
-        parentElement: temp,
-        childElements: popupWidget.childElements,
-        mainId: newElementId,
-        id: newElementId,
-        layoutType: drag.id,
-      });
+      popupWidget.popupWidget.childElementIds.forEach((value, index) => {
+        const newChildId = `${newElementId}-${index}`;
+        dataJson.childElements[drop.id].childElementIds.push(newChildId);
+        jsonAppendDataHtmlByID({
+          originData: dataJson,
+          originName: newChildId,
+          newChildData: popupWidget,
+          newChildElement: popupWidget.childElements[value],
 
-      insertElementToElement(drop, temp.firstChild, moveName, contentWindow);
-      temp.remove();
+          parentElement: drop,
+          mainId: newChildId,
+          layoutType: drag.id,
+          addNewElement: true,
+        });
+      });
       documentIframe.querySelector(
         `[${MAIN_TYPE}="${POPUP_BACKGROUND}"]`
       ).style = {};
+      break;
+    case TEMPLATE:
       break;
     default:
       break;

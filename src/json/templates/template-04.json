@@ -1,0 +1,151 @@
+{
+  "template": {
+    "childElementIds": ["teaserLayout04", "popupLayout04"]
+  },
+  "childElements": {
+    "teaserLayout04": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "teaserLayout04"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".teaserLayout04",
+          "css": "position: fixed; top: 30px; left: 30px;"
+        }
+      ],
+      "childElementIds": ["teaserDivText", "teaserLayout04test"]
+    },
+    "teaserLayout04test": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "teaserLayout04test"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".teaserLayout04test",
+          "css": "color:green;"
+        }
+      ],
+      "childElementIds": ["teaserLayout04testText"]
+    },
+    "teaserLayout04testText": {
+      "type": "text",
+      "value": "teaserLayout04testText"
+    },
+    "teaserDivText": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "teaserDivText"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".teaserDivText",
+          "css": "color:blue;"
+        }
+      ],
+      "childElementIds": ["teaserText"]
+    },
+    "teaserText": {
+      "type": "text",
+      "value": "Teaser"
+    },
+    "popupLayout04": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "popupLayout04"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".popupLayout04",
+          "css": "position: fixed; width: 800px; height: 500px; background: #0ff; display: flex;"
+        }
+      ],
+      "childElementIds": ["rightPopupLayout04", "leftPopupLayout04"]
+    },
+    "rightPopupLayout04": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "droptype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "rightPopupLayout04"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".rightPopupLayout04",
+          "css": "color:green; width:50%; height:100%; background:#0aa"
+        }
+      ],
+      "childElementIds": ["rightText"]
+    },
+    "rightText": {
+      "type": "text",
+      "value": "rightText"
+    },
+    "leftPopupLayout04": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "leftPopupLayout04"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".leftPopupLayout04",
+          "css": "color:blue; width:50%; height:100%; background:#0bb"
+        }
+      ],
+      "childElementIds": []
+    }
+  }
+}

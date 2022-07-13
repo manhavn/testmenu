@@ -1,0 +1,78 @@
+{
+  "teaserLayout": {
+    "childElementIds": ["teaserLayout02"]
+  },
+  "childElements": {
+    "teaserLayout02": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "teaserLayout02"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".teaserLayout02",
+          "css": "position: fixed"
+        }
+      ],
+      "childElementIds": ["teaserDivText", "teaserLayout02test"]
+    },
+    "teaserLayout02test": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "teaserLayout02test"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".teaserLayout02test",
+          "css": "color:green;"
+        }
+      ],
+      "childElementIds": ["teaserLayout02testText"]
+    },
+    "teaserLayout02testText": {
+      "type": "text",
+      "value": "teaserLayout02testText 2222222"
+    },
+    "teaserDivText": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": true,
+          "editValue": true,
+          "name": "class",
+          "value": "teaserDivText"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".teaserDivText",
+          "css": "color:blue;"
+        }
+      ],
+      "childElementIds": ["teaserText"]
+    },
+    "teaserText": {
+      "type": "text",
+      "value": "Teaser 2222222"
+    }
+  }
+}
