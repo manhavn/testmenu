@@ -30,8 +30,8 @@ import {
   jsonElementToHtml,
   moving,
   setAfterBeforeAppend,
-  emptyString,
   lastChild,
+  movePositionElement,
 } from "../define/functions";
 
 const styleOutlineMain = "#f00 2px solid";
@@ -70,6 +70,7 @@ export default function Frame() {
   const [srcDoc, setSrcDoc] = useState(null);
 
   const [moveFixedData, setMoveFixedData] = useState(null);
+  const [moveAbsoluteData, setMoveAbsoluteData] = useState(null);
 
   const [dataJson, setDataJson] = useState(null);
   const [teaserLayout, setTeaserLayout] = useState(null);
@@ -133,11 +134,22 @@ export default function Frame() {
                   iframeBodyOnMousedown(mainElement, contentWindow);
                 }
                 const moveNameType = mainElement.getAttribute(MOVETYPE);
+                const { style, offsetWidth, offsetHeight, onclick } =
+                  mainElement;
                 switch (moveNameType) {
                   case TEASER_LAYOUT:
-                    const { style, offsetWidth, offsetHeight, onclick } =
-                      mainElement;
                     setMoveFixedData({
+                      style,
+                      offsetWidth,
+                      offsetHeight,
+                      layerX,
+                      layerY,
+                      mainElement,
+                      onclick,
+                    });
+                    break;
+                  case POPUP_WIDGET:
+                    setMoveAbsoluteData({
                       style,
                       offsetWidth,
                       offsetHeight,
@@ -189,91 +201,19 @@ export default function Frame() {
 
   useEffect(() => {
     if (body && contentWindow && moveFixedData) {
-      const { style, offsetWidth, offsetHeight, layerX, layerY } =
-        moveFixedData;
-      contentWindow.onmouseup = () => {
-        contentWindow.onmouseup = null;
-        contentWindow.onmousemove = null;
-        body.onselectstart = null;
-        setMoveFixedData(null);
-      };
-      contentWindow.onmouseout = ({ target }) => {
-        target.style.cursor = "";
-      };
-      contentWindow.onmousemove = ({ pageX, pageY, target }) => {
-        target.style.cursor = "default";
-        body.onselectstart = () => false;
-        const { innerWidth, innerHeight, scrollX, scrollY } = contentWindow;
-
-        const positionMouseX = pageX - scrollX;
-        const positionMouseY = pageY - scrollY;
-        const positionMouseRightX = innerWidth + scrollX - pageX;
-        const positionMouseRightY = innerHeight + scrollY - pageY;
-
-        const layerRightX = offsetWidth - layerX;
-        const layerRightY = offsetHeight - layerY;
-
-        function getNewPercentValue(p, l, i) {
-          let o = p - l;
-          if (o < 0) {
-            o = 0;
-          } else {
-            o = (100 * o) / i;
-          }
-          return o;
-        }
-
-        const elLeft = getNewPercentValue(positionMouseX, layerX, innerWidth);
-        const elTop = getNewPercentValue(positionMouseY, layerY, innerHeight);
-        const elRight = getNewPercentValue(
-          positionMouseRightX,
-          layerRightX,
-          innerWidth
-        );
-        const elBottom = getNewPercentValue(
-          positionMouseRightY,
-          layerRightY,
-          innerHeight
-        );
-
-        function getNewPosition({ elLeft, elTop, elRight, elBottom }) {
-          let positionFixed = {};
-          const left = `${elLeft}%`;
-          const top = `${elTop}%`;
-          const right = `${elRight}%`;
-          const bottom = `${elBottom}%`;
-          switch (true) {
-            case elLeft < elRight && elTop < elBottom:
-              positionFixed = { left, top };
-              break;
-            case elLeft > elRight && elTop < elBottom:
-              positionFixed = { right, top };
-              break;
-            case elLeft < elRight && elTop > elBottom:
-              positionFixed = { left, bottom };
-              break;
-            case elLeft > elRight && elTop > elBottom:
-              positionFixed = { right, bottom };
-              break;
-            default:
-              break;
-          }
-          return positionFixed;
-        }
-
-        const { left, top, right, bottom } = getNewPosition({
-          elLeft,
-          elTop,
-          elRight,
-          elBottom,
-        });
-        style.left = left || emptyString;
-        style.top = top || emptyString;
-        style.right = right || emptyString;
-        style.bottom = bottom || emptyString;
-      };
+      movePositionElement(body, contentWindow, moveFixedData, TEASER_LAYOUT, {
+        setMoveFixedData,
+      });
     }
   }, [body, contentWindow, moveFixedData]);
+
+  useEffect(() => {
+    if (body && contentWindow && moveAbsoluteData) {
+      movePositionElement(body, contentWindow, moveAbsoluteData, POPUP_WIDGET, {
+        setMoveFixedData,
+      });
+    }
+  }, [body, contentWindow, moveAbsoluteData]);
 
   useEffect(() => {
     setMenuDragEnd(null);

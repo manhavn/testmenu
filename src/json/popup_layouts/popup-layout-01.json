@@ -22,9 +22,9 @@
           "css": "position: fixed; width: 800px; height: 500px; background: #0ff; display: flex;"
         }
       ],
-      "childElementIds": ["leftPopupLayout01", "rightPopupLayout01"]
+      "childElementIds": ["fullWidthPopupLayout01"]
     },
-    "leftPopupLayout01": {
+    "fullWidthPopupLayout01": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
@@ -46,41 +46,10 @@
           "editLocation": false,
           "editCss": true,
           "location": ".leftPopupLayout01",
-          "css": "color:blue; width:50%; height:100%; background:#0bb"
+          "css": "position: relative; color:blue; width:100%; height:100%; background:#0ff"
         }
       ],
       "childElementIds": []
-    },
-    "rightPopupLayout01": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "droptype",
-          "value": "popup-image-layout"
-        },
-        {
-          "editName": true,
-          "editValue": true,
-          "name": "class",
-          "value": "rightPopupLayout01"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".rightPopupLayout01",
-          "css": "color:green; width:50%; height:100%; background:#0aa"
-        }
-      ],
-      "childElementIds": ["rightText"]
-    },
-    "rightText": {
-      "type": "text",
-      "value": "rightText11111"
     }
   }
 }

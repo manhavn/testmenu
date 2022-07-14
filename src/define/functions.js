@@ -383,3 +383,144 @@ export function setAfterBeforeAppend(
   const positionY = layerY - (offsetTop + offsetHeight / 2);
   props.setDragElementOverY(positionY >= 0);
 }
+
+export function getNewPercentValue(p, l, i) {
+  let o = p - l;
+  if (o < 0) {
+    o = 0;
+  } else {
+    o = (100 * o) / i;
+  }
+  return o;
+}
+
+export function getNewPosition({ elLeft, elTop, elRight, elBottom }) {
+  let positionFixed = {};
+  const left = `${elLeft}%`;
+  const top = `${elTop}%`;
+  const right = `${elRight}%`;
+  const bottom = `${elBottom}%`;
+  switch (true) {
+    case elLeft < elRight && elTop < elBottom:
+      positionFixed = { left, top };
+      break;
+    case elLeft > elRight && elTop < elBottom:
+      positionFixed = { right, top };
+      break;
+    case elLeft < elRight && elTop > elBottom:
+      positionFixed = { left, bottom };
+      break;
+    case elLeft > elRight && elTop > elBottom:
+      positionFixed = { right, bottom };
+      break;
+    default:
+      break;
+  }
+  return positionFixed;
+}
+
+export function getNewAbsolutePosition(m, l, f, s, c) {
+  let n = (100 * (m - l - (f + s - c) / 2)) / c;
+  if (n < 0) {
+    n = 0;
+  }
+  return n;
+}
+
+export function movePositionElement(
+  body,
+  contentWindow,
+  moveData,
+  moveType,
+  props
+) {
+  const { style, offsetWidth, offsetHeight, layerX, layerY } = moveData;
+  contentWindow.onmouseup = () => {
+    contentWindow.onmouseup = null;
+    contentWindow.onmousemove = null;
+    body.onselectstart = null;
+    props.setMoveFixedData(null);
+  };
+  contentWindow.onmouseout = ({ target }) => {
+    target.style.cursor = "";
+  };
+  contentWindow.onmousemove = ({ pageX, pageY, target }) => {
+    if (target && target.style) target.style.cursor = "default";
+    body.onselectstart = () => false;
+
+    const { innerWidth, innerHeight, scrollX, scrollY } = contentWindow;
+
+    const positionMouseX = pageX - scrollX;
+    const positionMouseY = pageY - scrollY;
+    const positionMouseRightX = innerWidth + scrollX - pageX;
+    const positionMouseRightY = innerHeight + scrollY - pageY;
+
+    let elLeft, elTop, elRight, elBottom;
+    const layerRightX = offsetWidth - layerX;
+    const layerRightY = offsetHeight - layerY;
+
+    switch (moveType) {
+      case TEASER_LAYOUT:
+        elLeft = getNewPercentValue(positionMouseX, layerX, innerWidth);
+        elTop = getNewPercentValue(positionMouseY, layerY, innerHeight);
+        elRight = getNewPercentValue(
+          positionMouseRightX,
+          layerRightX,
+          innerWidth
+        );
+        elBottom = getNewPercentValue(
+          positionMouseRightY,
+          layerRightY,
+          innerHeight
+        );
+        break;
+      case POPUP_WIDGET:
+        const { clientWidth, clientHeight } =
+          contentWindow.document.querySelector(
+            `[${DROPTYPE}="${POPUP_WIDGET}"]`
+          );
+        elLeft = getNewAbsolutePosition(
+          positionMouseX,
+          layerX,
+          positionMouseX,
+          positionMouseRightX,
+          clientWidth
+        );
+        elRight = getNewAbsolutePosition(
+          positionMouseRightX,
+          layerRightX,
+          positionMouseX,
+          positionMouseRightX,
+          clientWidth
+        );
+        elTop = getNewAbsolutePosition(
+          positionMouseY,
+          layerY,
+          positionMouseY,
+          positionMouseRightY,
+          clientHeight
+        );
+        elBottom = getNewAbsolutePosition(
+          positionMouseRightY,
+          layerRightY,
+          positionMouseY,
+          positionMouseRightY,
+          clientHeight
+        );
+        break;
+      default:
+        break;
+    }
+
+    const { left, top, right, bottom } = getNewPosition({
+      elLeft,
+      elTop,
+      elRight,
+      elBottom,
+    });
+    style.left = left || emptyString;
+    style.top = top || emptyString;
+    style.right = right || emptyString;
+    style.bottom = bottom || emptyString;
+  };
+}

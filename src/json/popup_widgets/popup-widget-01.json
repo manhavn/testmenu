@@ -10,7 +10,7 @@
         {
           "editName": false,
           "editValue": false,
-          "name": "dragtype",
+          "name": "movetype",
           "value": "popup-widget"
         },
         {
@@ -25,7 +25,7 @@
           "editLocation": false,
           "editCss": true,
           "location": ".popupWidget01",
-          "css": "color: green;"
+          "css": "color: green; position: absolute;"
         }
       ],
       "childElementIds": ["div01", "div02"]
