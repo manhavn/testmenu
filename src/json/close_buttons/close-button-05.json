@@ -1,0 +1,63 @@
+{
+  "popupWidget": {
+    "childElementIds": ["CloseBtn"]
+  },
+  "childElements": {
+    "CloseBtn": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "close-button"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "CloseBtn"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "right: -8px; top: -8px;"
+        }
+      ],
+      "script": "document.querySelector('[class=\"CloseBtn\"]').onmouseover=ev=>{console.log(ev)}",
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn",
+          "css": "position: absolute;    z-index: 9;    background: #fff;    width: 28px;    height: 28px;    border-radius: 50%;    display: flex;    align-items: center;    justify-content: center;    box-shadow: 0 4px 15px hsl(0deg 0% 51% / 25%);    cursor: pointer;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn svg",
+          "css": "width: 13px;    height: 13px;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn svg line",
+          "css": "stroke:#380701;"
+        }
+      ],
+      "childElementIds": ["svg"]
+    },
+    "svg": {
+      "type": "svg",
+      "value": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 41.656 41.657\"><g id=\"Group_1205\" data-name=\"Group 1205\" transform=\"translate(-15.972 -15.972)\"><line id=\"Line_1\" data-name=\"Line 1\" x2=\"36\" y2=\"36\" transform=\"translate(18.8 18.8)\" fill=\"none\" stroke=\"#FFFFFF\" stroke-miterlimit=\"10\" stroke-width=\"5\"></line><line id=\"Line_2\" data-name=\"Line 2\" y2=\"36\" transform=\"translate(18.8 18.8)\" fill=\"none\" stroke=\"#FFFFFF\" stroke-miterlimit=\"10\" stroke-width=\"5\" x1=\"36\"></line></g></svg>"
+    }
+  }
+}

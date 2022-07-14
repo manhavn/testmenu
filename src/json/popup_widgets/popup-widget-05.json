@@ -16,6 +16,12 @@
         {
           "editName": false,
           "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
           "name": "class",
           "value": "popupWidget05"
         }

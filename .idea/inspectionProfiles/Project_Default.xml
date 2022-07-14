@@ -16,7 +16,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="9">
+          <list size="10">
             <item index="0" class="java.lang.String" itemvalue="frameborder" />
             <item index="1" class="java.lang.String" itemvalue="dropable" />
             <item index="2" class="java.lang.String" itemvalue="draggenable" />
@@ -26,6 +26,7 @@
             <item index="6" class="java.lang.String" itemvalue="movefixedenable" />
             <item index="7" class="java.lang.String" itemvalue="dragtype" />
             <item index="8" class="java.lang.String" itemvalue="mainid" />
+            <item index="9" class="java.lang.String" itemvalue="menudragtype" />
           </list>
         </value>
       </option>

@@ -419,10 +419,12 @@ export function getNewPosition({ elLeft, elTop, elRight, elBottom }) {
   return positionFixed;
 }
 
-export function getNewAbsolutePosition(m, l, f, s, c) {
+export function getNewAbsolutePosition(m, l, f, s, c, t) {
   let n = (100 * (m - l - (f + s - c) / 2)) / c;
-  if (n < 0) {
+  if (n < 0 && t === POPUP_WIDGET) {
     n = 0;
+  } else if (m - l < 0) {
+    n = (100 * (-(f + s - c) / 2)) / c;
   }
   return n;
 }
@@ -431,15 +433,24 @@ export function movePositionElement(
   body,
   contentWindow,
   moveData,
-  moveType,
+  dataJson,
   props
 ) {
-  const { style, offsetWidth, offsetHeight, layerX, layerY } = moveData;
+  const {
+    mainId,
+    style,
+    offsetWidth,
+    offsetHeight,
+    layerX,
+    layerY,
+    moveNameType,
+    widgetType,
+  } = moveData;
   contentWindow.onmouseup = () => {
     contentWindow.onmouseup = null;
     contentWindow.onmousemove = null;
     body.onselectstart = null;
-    props.setMoveFixedData(null);
+    props.setMoveFixedAbsoluteData(null);
   };
   contentWindow.onmouseout = ({ target }) => {
     target.style.cursor = "";
@@ -459,7 +470,7 @@ export function movePositionElement(
     const layerRightX = offsetWidth - layerX;
     const layerRightY = offsetHeight - layerY;
 
-    switch (moveType) {
+    switch (moveNameType) {
       case TEASER_LAYOUT:
         elLeft = getNewPercentValue(positionMouseX, layerX, innerWidth);
         elTop = getNewPercentValue(positionMouseY, layerY, innerHeight);
@@ -484,28 +495,32 @@ export function movePositionElement(
           layerX,
           positionMouseX,
           positionMouseRightX,
-          clientWidth
+          clientWidth,
+          widgetType
         );
         elRight = getNewAbsolutePosition(
           positionMouseRightX,
           layerRightX,
           positionMouseX,
           positionMouseRightX,
-          clientWidth
+          clientWidth,
+          widgetType
         );
         elTop = getNewAbsolutePosition(
           positionMouseY,
           layerY,
           positionMouseY,
           positionMouseRightY,
-          clientHeight
+          clientHeight,
+          widgetType
         );
         elBottom = getNewAbsolutePosition(
           positionMouseRightY,
           layerRightY,
           positionMouseY,
           positionMouseRightY,
-          clientHeight
+          clientHeight,
+          widgetType
         );
         break;
       default:
@@ -522,5 +537,37 @@ export function movePositionElement(
     style.top = top || emptyString;
     style.right = right || emptyString;
     style.bottom = bottom || emptyString;
+
+    const styleName = "style";
+    let indexOld = 0;
+    let styleData;
+    let elementData = dataJson.childElements[mainId];
+    if (
+      elementData &&
+      elementData.attribute &&
+      elementData.attribute.length > 0
+    ) {
+      styleData = elementData.attribute.filter(({ name }, index) => {
+        if (name === styleName) {
+          indexOld = index;
+          return true;
+        }
+        return false;
+      })[0];
+    }
+    let { editName, editValue } = styleData || {};
+    let newStyleData = {
+      editName: !!editName,
+      editValue: !!editValue,
+      name: styleName,
+      value: `left: ${left || emptyString}; top: ${
+        top || emptyString
+      }; right: ${right || emptyString}; bottom: ${bottom || emptyString};`,
+    };
+    if (indexOld === 0) {
+      dataJson.childElements[mainId].attribute.push(newStyleData);
+    } else {
+      dataJson.childElements[mainId].attribute[indexOld] = newStyleData;
+    }
   };
 }

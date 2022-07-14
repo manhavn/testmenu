@@ -17,6 +17,9 @@ import {
   POPUP_BACKGROUND,
   TEMPLATE,
   MOVETYPE,
+  CLOSE_BUTTON,
+  MENUDRAGTYPE,
+  WIDGETTYPE,
 } from "../define/consts";
 
 import {
@@ -38,10 +41,11 @@ const styleOutlineMain = "#f00 2px solid";
 const styleOutlineMainDrop = "#00f 1px dashed";
 
 const navList = [
-  { name: "Teaser", value: TEASER_LAYOUT },
-  { name: "Popup", value: POPUP_LAYOUT },
-  { name: "Widget", value: POPUP_WIDGET },
-  { name: "Templs", value: TEMPLATE },
+  { name: "Teaser", value: TEASER_LAYOUT, type: TEASER_LAYOUT },
+  { name: "Popup", value: POPUP_LAYOUT, type: POPUP_LAYOUT },
+  { name: "Widget", value: POPUP_WIDGET, type: POPUP_WIDGET },
+  { name: "close", value: CLOSE_BUTTON, type: POPUP_WIDGET },
+  { name: "Templs", value: TEMPLATE, type: TEMPLATE },
 ];
 
 export default function Frame() {
@@ -69,8 +73,7 @@ export default function Frame() {
 
   const [srcDoc, setSrcDoc] = useState(null);
 
-  const [moveFixedData, setMoveFixedData] = useState(null);
-  const [moveAbsoluteData, setMoveAbsoluteData] = useState(null);
+  const [moveFixedAbsoluteData, setMoveFixedAbsoluteData] = useState(null);
 
   const [dataJson, setDataJson] = useState(null);
   const [teaserLayout, setTeaserLayout] = useState(null);
@@ -133,35 +136,22 @@ export default function Frame() {
                   mainElement.ondragend = setIframeDragEnd;
                   iframeBodyOnMousedown(mainElement, contentWindow);
                 }
+                const widgetType = mainElement.getAttribute(WIDGETTYPE);
                 const moveNameType = mainElement.getAttribute(MOVETYPE);
                 const { style, offsetWidth, offsetHeight, onclick } =
                   mainElement;
-                switch (moveNameType) {
-                  case TEASER_LAYOUT:
-                    setMoveFixedData({
-                      style,
-                      offsetWidth,
-                      offsetHeight,
-                      layerX,
-                      layerY,
-                      mainElement,
-                      onclick,
-                    });
-                    break;
-                  case POPUP_WIDGET:
-                    setMoveAbsoluteData({
-                      style,
-                      offsetWidth,
-                      offsetHeight,
-                      layerX,
-                      layerY,
-                      mainElement,
-                      onclick,
-                    });
-                    break;
-                  default:
-                    break;
-                }
+                setMoveFixedAbsoluteData({
+                  mainId,
+                  style,
+                  offsetWidth,
+                  offsetHeight,
+                  layerX,
+                  layerY,
+                  mainElement,
+                  onclick,
+                  moveNameType,
+                  widgetType,
+                });
               };
               target.onmouseup = () => {
                 documentIframe
@@ -200,20 +190,18 @@ export default function Frame() {
   }, [body, contentWindow]);
 
   useEffect(() => {
-    if (body && contentWindow && moveFixedData) {
-      movePositionElement(body, contentWindow, moveFixedData, TEASER_LAYOUT, {
-        setMoveFixedData,
-      });
+    if (body && contentWindow && moveFixedAbsoluteData) {
+      movePositionElement(
+        body,
+        contentWindow,
+        moveFixedAbsoluteData,
+        dataJson,
+        {
+          setMoveFixedAbsoluteData,
+        }
+      );
     }
-  }, [body, contentWindow, moveFixedData]);
-
-  useEffect(() => {
-    if (body && contentWindow && moveAbsoluteData) {
-      movePositionElement(body, contentWindow, moveAbsoluteData, POPUP_WIDGET, {
-        setMoveFixedData,
-      });
-    }
-  }, [body, contentWindow, moveAbsoluteData]);
+  }, [body, contentWindow, dataJson, moveFixedAbsoluteData]);
 
   useEffect(() => {
     setMenuDragEnd(null);
@@ -260,7 +248,7 @@ export default function Frame() {
       setResetDragData((v) => !v);
 
       const { target } = menuDragStart;
-      const dropNameType = target.getAttribute(DRAGTYPE);
+      const dropNameType = target.getAttribute(MENUDRAGTYPE);
       if (dropNameType) {
         let url;
         const hostApi = "http://localhost:9999";
@@ -297,6 +285,16 @@ export default function Frame() {
                 value.style.zIndex = 999;
               });
             break;
+          case CLOSE_BUTTON:
+            url = `${hostApi}/close_buttons/${target.id}.json`;
+
+            documentIframe
+              .querySelectorAll(`[${DROPTYPE}="${POPUP_WIDGET}"]`)
+              .forEach((value) => {
+                value.style.outline = styleOutlineMainDrop;
+                value.style.zIndex = 999;
+              });
+            break;
           case TEMPLATE:
             url = `${hostApi}/templates/${target.id}.json`;
 
@@ -318,6 +316,7 @@ export default function Frame() {
                 setPopupLayout(data);
                 break;
               case POPUP_WIDGET:
+              case CLOSE_BUTTON:
                 setPopupWidget(data);
                 break;
               case TEMPLATE:

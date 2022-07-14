@@ -1,9 +1,9 @@
 {
   "popupLayout": {
-    "childElementIds": ["popupLayout03"]
+    "childElementIds": ["popupLayout01"]
   },
   "childElements": {
-    "popupLayout03": {
+    "popupLayout01": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
@@ -11,20 +11,20 @@
           "editName": false,
           "editValue": false,
           "name": "class",
-          "value": "popupLayout03"
+          "value": "popupLayout01"
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".popupLayout03",
+          "location": ".popupLayout01",
           "css": "position: fixed; width: 800px; height: 500px; background: #0ff; display: flex;"
         }
       ],
-      "childElementIds": ["leftPopupLayout03", "rightPopupLayout03"]
+      "childElementIds": ["fullWidthPopupLayout01"]
     },
-    "leftPopupLayout03": {
+    "fullWidthPopupLayout01": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
@@ -38,49 +38,18 @@
           "editName": true,
           "editValue": true,
           "name": "class",
-          "value": "leftPopupLayout03"
+          "value": "leftPopupLayout01"
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".leftPopupLayout03",
-          "css": "color:blue; width:50%; height:100%; background:#0bb"
+          "location": ".leftPopupLayout01",
+          "css": "position: relative; color:blue; width:100%; height:100%; background:#0ff"
         }
       ],
       "childElementIds": []
-    },
-    "rightPopupLayout03": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "droptype",
-          "value": "popup-image-layout"
-        },
-        {
-          "editName": true,
-          "editValue": true,
-          "name": "class",
-          "value": "rightPopupLayout03"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".rightPopupLayout03",
-          "css": "color:green; width:50%; height:100%; background:#0aa"
-        }
-      ],
-      "childElementIds": ["rightText"]
-    },
-    "rightText": {
-      "type": "text",
-      "value": "rightText33333"
     }
   }
 }

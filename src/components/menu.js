@@ -14,6 +14,7 @@ export default function Menu({
 }) {
   const [title, setTitle] = useState("");
   const [valueSelected, setValueSelected] = useState("");
+  const [typeSelected, setTypeSelected] = useState("");
   const [listItem, setListItem] = useState([]);
   useEffect(() => {
     if (!navSelected) {
@@ -27,6 +28,7 @@ export default function Menu({
       if (menuSelectedItem) {
         setTitle(menuSelectedItem.name);
         setValueSelected(menuSelectedItem.value);
+        setTypeSelected(menuSelectedItem.type);
         setListItem([
           { name: "Link 1", menuId: `${menuSelectedItem.value}-01` },
           { name: "Link 2", menuId: `${menuSelectedItem.value}-02` },
@@ -62,7 +64,8 @@ export default function Menu({
               draggable="true"
               onDragStart={setMenuDragStart}
               onDragEnd={setMenuDragEnd}
-              dragtype={valueSelected}
+              dragtype={typeSelected}
+              menudragtype={valueSelected}
             >
               {name}
             </div>

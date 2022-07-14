@@ -1,8 +1,128 @@
 {
   "popupWidget": {
-    "childElementIds": ["popupWidget03"]
+    "childElementIds": ["Main"]
   },
   "childElements": {
+    "Main": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Main"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Main",
+          "css": "position: absolute;"
+        }
+      ],
+      "childElementIds": ["Subscribe"]
+    },
+    "Subscribe": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Subscribe"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Subscribe",
+          "css": "min-width: 311px;    margin: 30px auto auto;    width: 100%;"
+        }
+      ],
+      "childElementIds": ["TextField", "Btn"]
+    },
+    "TextField": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "TextField"
+        }
+      ],
+      "style": [],
+      "childElementIds": ["Input"]
+    },
+    "Input": {
+      "type": "tag",
+      "tagName": "input",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Input"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "placeholder",
+          "value": "Enter your email"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Input",
+          "css": "font-weight: 400;    border: none;    text-transform: none;    letter-spacing: normal;    position: relative;    display: flex;    align-items: center;    cursor: text;    width: 100%;    line-height: 2.4rem;    border: none;    border-radius: 0;    outline: none;    background: transparent;    border-bottom: 1px solid #380701;"
+        }
+      ],
+      "childElementIds": []
+    },
+    "Btn": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Btn"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Btn",
+          "css": "margin-top: 20px;    padding: 7px 20px;    height: 38px;    width: 180px;    display: flex;    align-items: center;    justify-content: center;    font-size: 16px;    text-align: center;    background-color: #fff;    color: #510C05;    font-weight: 500;    border: 1px solid #510C05;    cursor: pointer;    border-radius: 30px;    margin-left: 4px;"
+        }
+      ],
+      "childElementIds": ["textBtn"]
+    },
+    "textBtn": {
+      "type": "text",
+      "value": "SIGN UP"
+    },
     "popupWidget03": {
       "type": "tag",
       "tagName": "div",

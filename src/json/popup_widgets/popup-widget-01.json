@@ -1,8 +1,45 @@
 {
   "popupWidget": {
-    "childElementIds": ["popupWidget01"]
+    "childElementIds": ["Header"]
   },
   "childElements": {
+    "Header": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Header"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Header",
+          "css": "position: absolute; letter-spacing: .02em;    font-size: 40px;    line-height: 40px;    font-weight: 700;    color: #510C05;    max-width: 380px;    text-transform: uppercase;    overflow: hidden;"
+        }
+      ],
+      "childElementIds": ["textHeader"]
+    },
+    "textHeader": {
+      "type": "text",
+      "value": "JOIN US TODAY!"
+    },
     "popupWidget01": {
       "type": "tag",
       "tagName": "div",

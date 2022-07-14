@@ -1,8 +1,45 @@
 {
   "popupWidget": {
-    "childElementIds": ["popupWidget02"]
+    "childElementIds": ["Description"]
   },
   "childElements": {
+    "Description": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Description"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Description",
+          "css": "position: absolute; font-size: 18px;    color: #333;    color:#510C05;    font-weight: 400;    margin-top: 16px;    overflow: hidden;    max-width: 315px;    line-height: 24px;    text-align: left;"
+        }
+      ],
+      "childElementIds": ["textDescription"]
+    },
+    "textDescription": {
+      "type": "text",
+      "value": "You only need to leave your email here and enjoy many offers every day"
+    },
     "popupWidget02": {
       "type": "tag",
       "tagName": "div",
