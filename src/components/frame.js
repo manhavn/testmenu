@@ -370,39 +370,27 @@ export default function Frame() {
             `[${DROPTYPE}="${targetDrag.getAttribute(DRAGTYPE)}"]`
           )
           .forEach((value) => {
-            if (value.contains(target)) {
-              let dropChild;
+            if (value.contains(target) && value !== target) {
               for (let i = 0; i < value.childNodes.length; i++) {
-                const childNode = value.childNodes[i];
-                if (childNode.contains(target)) {
-                  dropChild = childNode;
+                const dropChild = value.childNodes[i];
+                if (dropChild.contains(target)) {
+                  dragging(
+                    dropChild.parentElement,
+                    targetDrag,
+                    contentWindow,
+                    iframeDrop,
+                    {
+                      dataJson,
+                      teaserLayout,
+                      popupLayout,
+                      popupWidget,
+                      template,
+                    },
+                    dragElementOverY ? after : before,
+                    dropChild
+                  );
                   break;
                 }
-              }
-              if (dropChild) {
-                const moveName = dragElementOverY ? after : before;
-                dragging(
-                  dropChild,
-                  targetDrag,
-                  contentWindow,
-                  iframeDrop,
-                  {
-                    dataJson,
-                    teaserLayout,
-                    popupLayout,
-                    popupWidget,
-                    template,
-                  },
-                  moveName
-                );
-              } else {
-                dragging(value, targetDrag, contentWindow, iframeDrop, {
-                  dataJson,
-                  teaserLayout,
-                  popupLayout,
-                  popupWidget,
-                  template,
-                });
               }
             }
           });
@@ -431,8 +419,8 @@ export default function Frame() {
     if (iframeDragEnd && iframeDragStart && dragenter && contentWindow) {
       const { target } = dragenter;
       const { target: targetDrag } = iframeDragStart;
-      let moveName = lastChild;
       if (targetDrag !== target) {
+        let moveName = lastChild;
         if (
           targetDrag.getAttribute(DRAGTYPE) === target.getAttribute(DROPTYPE)
         ) {
@@ -492,12 +480,13 @@ export default function Frame() {
   ]);
 
   useEffect(() => {
-    if (dragenter && contentWindow && iframeDragStart) {
+    if (dragenter && contentWindow && (iframeDragStart || menuDragStart)) {
       let setOver;
+      const iframeStart = iframeDragStart || menuDragStart;
       setDragElementOverY(true);
 
       const dragElementOver = contentWindow.document.querySelectorAll(
-        `[${DRAGTYPE}="${iframeDragStart.target.getAttribute(DRAGTYPE)}"]`
+        `[${DRAGTYPE}="${iframeStart.target.getAttribute(DRAGTYPE)}"]`
       );
       const { target } = dragenter;
       for (let i = 0; i < dragElementOver.length; i++) {
@@ -510,7 +499,7 @@ export default function Frame() {
       }
       if (!setOver) setDragElementOver(null);
     }
-  }, [contentWindow, dragenter, iframeDragStart]);
+  }, [contentWindow, dragenter, iframeDragStart, menuDragStart]);
 
   useEffect(() => {
     if (dragElementOver && dragover) {

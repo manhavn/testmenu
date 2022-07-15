@@ -31,6 +31,9 @@ export function jsonAppendDataHtmlByID({
   newChildData,
   newChildElement,
 
+  moveName,
+  dropChild,
+  fatherId,
   parentElement,
   mainId,
   layoutType,
@@ -142,6 +145,10 @@ export function jsonAppendDataHtmlByID({
       }
       // script
 
+      if (fatherId) {
+        newChildElement.fatherId = fatherId;
+      }
+
       originData.childElements[originName] = {
         ...newChildElement,
         childElementIds: [],
@@ -157,13 +164,24 @@ export function jsonAppendDataHtmlByID({
             newChildData,
             newChildElement: newChildData.childElements[value],
 
+            fatherId,
             parentElement: element,
             mainId,
             addNewElement,
           });
         });
       }
-      parentElement.appendChild(element);
+      switch (moveName) {
+        case after:
+          parentElement.insertBefore(element, dropChild.nextSibling);
+          break;
+        case before:
+          parentElement.insertBefore(element, dropChild);
+          break;
+        default:
+          parentElement.appendChild(element);
+          break;
+      }
       if (addAndSetPosition && contentWindow && element.id) {
         const { pageX, pageY } = iframeDrop;
         const moveElement = contentWindow.document.getElementById(element.id);
@@ -223,6 +241,91 @@ export function iframeBodyOnMousedown(mainElement, contentWindow) {
   }
 }
 
+function changeJsonDataAppendItem(
+  dataJson,
+  dropMainId,
+  dragId,
+  newArray,
+  childType,
+  checkAppend
+) {
+  const newFatherElement = dataJson.childElements[dropMainId];
+  const arr = newFatherElement.childElementIds;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] !== dragId) {
+      newArray.push(arr[i]);
+    }
+  }
+  if (checkAppend) {
+    switch (childType) {
+      case firstChild:
+        newArray.unshift(dragId);
+        break;
+      default:
+      case lastChild:
+        newArray.push(dragId);
+        break;
+    }
+  }
+  return newFatherElement;
+}
+
+function changeJsonDataItemAfter(
+  dataJson,
+  dropMainId,
+  nextItem,
+  dragId,
+  drop,
+  newArray,
+  checkAppend
+) {
+  const newFatherElement = dataJson.childElements[dropMainId];
+  const arr = newFatherElement.childElementIds;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === nextItem) {
+      if (drop.nextSibling) {
+        if (checkAppend) {
+          newArray.push(dragId);
+          newArray.push(nextItem);
+        } else {
+          newArray.push(nextItem);
+        }
+      } else {
+        newArray.push(nextItem);
+        if (checkAppend) newArray.push(dragId);
+      }
+    } else if (arr[i] !== dragId) {
+      newArray.push(arr[i]);
+    }
+  }
+  return newFatherElement;
+}
+
+function changeJsonDataItemBefore(
+  dataJson,
+  dropMainId,
+  prevItem,
+  dragId,
+  newArray,
+  checkAppend
+) {
+  const newFatherElement = dataJson.childElements[dropMainId];
+  const arr = newFatherElement.childElementIds;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === prevItem) {
+      if (checkAppend) {
+        newArray.push(dragId);
+        newArray.push(prevItem);
+      } else {
+        newArray.push(prevItem);
+      }
+    } else if (arr[i] !== dragId) {
+      newArray.push(arr[i]);
+    }
+  }
+  return newFatherElement;
+}
+
 export function insertElementToElement(
   drop,
   drag,
@@ -230,68 +333,126 @@ export function insertElementToElement(
   dataJson,
   moveName
 ) {
-  let arr;
-  let childElements;
+  let childElements, childElementsNewDrop;
   const newArray = [];
+  const newArrayNewDrop = [];
+  const dragMainId = drag.getAttribute(MAINID);
+  const dragFatherId = dataJson.childElements[dragMainId].fatherId;
+  let dropMainId;
+  let dropParentElement;
+
   switch (moveName) {
     case after:
-      childElements = dataJson.childElements[drop.parentElement.id];
-      arr = childElements.childElementIds;
+      dropParentElement = drop.parentElement;
+      dropMainId = dropParentElement.id;
       const nextItem = (drop.nextSibling && drop.nextSibling.id) || drop.id;
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === nextItem) {
-          if (drop.nextSibling) {
-            newArray.push(drag.id);
-            newArray.push(nextItem);
-          } else {
-            newArray.push(nextItem);
-            newArray.push(drag.id);
-          }
-        } else if (arr[i] !== drag.id) {
-          newArray.push(arr[i]);
-        }
+      if (dragFatherId === dropMainId) {
+        childElements = changeJsonDataItemAfter(
+          dataJson,
+          dragFatherId,
+          nextItem,
+          drag.id,
+          drop,
+          newArray,
+          true
+        );
+      } else {
+        childElementsNewDrop = changeJsonDataItemAfter(
+          dataJson,
+          dropMainId,
+          nextItem,
+          drag.id,
+          drop,
+          newArrayNewDrop,
+          true
+        );
+        childElements = changeJsonDataItemAfter(
+          dataJson,
+          dragFatherId,
+          nextItem,
+          drag.id,
+          drop,
+          newArray,
+          false
+        );
       }
-      drop.parentElement.insertBefore(drag, drop.nextSibling);
+      dropParentElement.insertBefore(drag, drop.nextSibling);
       break;
     case before:
-      childElements = dataJson.childElements[drop.parentElement.id];
-      arr = childElements.childElementIds;
+      dropParentElement = drop.parentElement;
+      dropMainId = dropParentElement.id;
       const prevItem = drop.id;
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === prevItem) {
-          newArray.push(drag.id);
-          newArray.push(prevItem);
-        } else if (arr[i] !== drag.id) {
-          newArray.push(arr[i]);
-        }
+      if (dragFatherId === dropMainId) {
+        childElements = changeJsonDataItemBefore(
+          dataJson,
+          dragFatherId,
+          prevItem,
+          drag.id,
+          newArray,
+          true
+        );
+      } else {
+        childElementsNewDrop = changeJsonDataItemBefore(
+          dataJson,
+          dropMainId,
+          prevItem,
+          drag.id,
+          newArrayNewDrop,
+          true
+        );
+        childElements = changeJsonDataItemBefore(
+          dataJson,
+          dragFatherId,
+          prevItem,
+          drag.id,
+          newArray,
+          false
+        );
       }
-      drop.parentElement.insertBefore(drag, drop);
-      break;
-    case firstChild:
-      childElements = dataJson.childElements[drop.id];
-      arr = childElements.childElementIds;
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] !== drag.id) {
-          newArray.push(arr[i]);
-        }
-      }
-      newArray.unshift(drag.id);
-      drop.appendChild(drag);
+      dropParentElement.insertBefore(drag, drop);
       break;
     default:
+    case firstChild:
     case lastChild:
-      childElements = dataJson.childElements[drop.id];
-      arr = childElements.childElementIds;
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] !== drag.id) {
-          newArray.push(arr[i]);
-        }
+      const childType = moveName === firstChild ? firstChild : lastChild;
+      dropMainId = drop.id;
+      if (dragFatherId === dropMainId) {
+        childElements = changeJsonDataAppendItem(
+          dataJson,
+          dragFatherId,
+          drag.id,
+          newArray,
+          childType,
+          true
+        );
+      } else {
+        childElementsNewDrop = changeJsonDataAppendItem(
+          dataJson,
+          dropMainId,
+          drag.id,
+          newArrayNewDrop,
+          childType,
+          true
+        );
+        childElements = changeJsonDataAppendItem(
+          dataJson,
+          dragFatherId,
+          drag.id,
+          newArray,
+          childType,
+          false
+        );
       }
-      newArray.push(drag.id);
-      drop.appendChild(drag);
+      if (moveName === firstChild && drop.firstChild) {
+        drop.insertBefore(drag, drop.firstChild);
+      } else {
+        drop.appendChild(drag);
+      }
       break;
   }
   if (childElements) childElements.childElementIds = newArray;
+  if (childElementsNewDrop)
+    childElementsNewDrop.childElementIds = newArrayNewDrop;
   contentWindow.document
     .querySelectorAll(`[${DROPTYPE}]`)
     .forEach((value) => (value.style = {}));
@@ -320,9 +481,10 @@ export function dragging(
   contentWindow,
   iframeDrop,
   { dataJson, teaserLayout, popupLayout, popupWidget, template },
-  moveName
+  moveName,
+  dropChild
 ) {
-  if (moveName) console.log("moveName src/define/functions.js 237", moveName);
+  if (template) console.log("template: src/define/functions.js 334", template);
   const { document: documentIframe } = contentWindow;
   const newElementId = new Date().getTime().toString();
   switch (drag.getAttribute(DRAGTYPE)) {
@@ -341,6 +503,9 @@ export function dragging(
           newChildData: teaserLayout,
           newChildElement: teaserLayout.childElements[value],
 
+          moveName,
+          dropChild,
+          fatherId: drop.id,
           parentElement: drop,
           mainId: newElementId,
           layoutType: drag.id,
@@ -371,6 +536,9 @@ export function dragging(
           newChildData: popupLayout,
           newChildElement: popupLayout.childElements[value],
 
+          moveName,
+          dropChild,
+          fatherId: drop.id,
           parentElement: drop,
           mainId: newElementId,
           layoutType: drag.id,
@@ -392,6 +560,9 @@ export function dragging(
           newChildData: popupWidget,
           newChildElement: popupWidget.childElements[value],
 
+          moveName,
+          dropChild,
+          fatherId: drop.id,
           parentElement: drop,
           mainId: newChildId,
           layoutType: drag.id,

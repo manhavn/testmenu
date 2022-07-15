@@ -58,12 +58,6 @@
         {
           "editName": false,
           "editValue": false,
-          "name": "droptype",
-          "value": "popup-widget"
-        },
-        {
-          "editName": false,
-          "editValue": false,
           "name": "class",
           "value": "Border"
         }
