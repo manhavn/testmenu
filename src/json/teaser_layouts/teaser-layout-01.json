@@ -11,20 +11,20 @@
           "editName": false,
           "editValue": false,
           "name": "class",
-          "value": "teaserLayout01"
+          "value": "teaserLayout05"
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".teaserLayout01",
+          "location": ".teaserLayout05",
           "css": "position: fixed"
         }
       ],
-      "childElementIds": ["teaserDivText", "teaserLayout01test"]
+      "childElementIds": ["teaserDiv"]
     },
-    "teaserLayout01test": {
+    "teaserDiv": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
@@ -32,22 +32,18 @@
           "editName": true,
           "editValue": true,
           "name": "class",
-          "value": "teaserLayout01test"
+          "value": "teaserDiv"
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".teaserLayout01test",
-          "css": "color:green;"
+          "location": ".teaserDiv",
+          "css": "position: relative; width: 244px; height: 44px; display: flex; align-content: center; align-items: center; align-self: center; justify-content: center; justify-items: center; justify-self: center; background-image: url(http://localhost:9999/images/signmeup.png); background-repeat: no-repeat;"
         }
       ],
-      "childElementIds": ["teaserLayout01testText"]
-    },
-    "teaserLayout01testText": {
-      "type": "text",
-      "value": "teaserLayout01testText 11111111"
+      "childElementIds": ["teaserDivText"]
     },
     "teaserDivText": {
       "type": "tag",
@@ -65,14 +61,14 @@
           "editLocation": false,
           "editCss": true,
           "location": ".teaserDivText",
-          "css": "color:blue;"
+          "css": "font-family: 'SF Pro Display';font-style: normal;font-weight: 700;font-size: 20px;line-height: 24px; color: #FFFFFF;"
         }
       ],
       "childElementIds": ["teaserText"]
     },
     "teaserText": {
       "type": "text",
-      "value": "Teaser 11111111"
+      "value": "SIGN ME UP"
     }
   }
 }

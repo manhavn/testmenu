@@ -32,7 +32,7 @@
           "value": "right: -8px; top: -8px;"
         }
       ],
-      "script": "document.querySelector('[class=\"CloseBtn\"]').onmouseover=ev=>{console.log(ev)}",
+      "script": "document.querySelector('[class=\"CloseBtn\"]').onclick=ev=>{console.log(ev)}",
       "style": [
         {
           "editLocation": false,

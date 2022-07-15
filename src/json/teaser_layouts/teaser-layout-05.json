@@ -22,9 +22,9 @@
           "css": "position: fixed"
         }
       ],
-      "childElementIds": ["teaserDivText", "teaserLayout05test"]
+      "childElementIds": ["teaserDiv"]
     },
-    "teaserLayout05test": {
+    "teaserDiv": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
@@ -32,22 +32,18 @@
           "editName": true,
           "editValue": true,
           "name": "class",
-          "value": "teaserLayout05test"
+          "value": "teaserDiv"
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".teaserLayout05test",
-          "css": "color:green;"
+          "location": ".teaserDiv",
+          "css": "position: relative; width: 244px; height: 44px; display: flex; align-content: center; align-items: center; align-self: center; justify-content: center; justify-items: center; justify-self: center; background-image: url(http://localhost:9999/images/signmeup.png); background-repeat: no-repeat;"
         }
       ],
-      "childElementIds": ["teaserLayout05testText"]
-    },
-    "teaserLayout05testText": {
-      "type": "text",
-      "value": "teaserLayout05testText 5555555"
+      "childElementIds": ["teaserDivText"]
     },
     "teaserDivText": {
       "type": "tag",
@@ -65,14 +61,14 @@
           "editLocation": false,
           "editCss": true,
           "location": ".teaserDivText",
-          "css": "color:blue;"
+          "css": "font-family: 'SF Pro Display';font-style: normal;font-weight: 700;font-size: 20px;line-height: 24px; color: #FFFFFF;"
         }
       ],
       "childElementIds": ["teaserText"]
     },
     "teaserText": {
       "type": "text",
-      "value": "Teaser 5555555"
+      "value": "SIGN ME UP"
     }
   }
 }

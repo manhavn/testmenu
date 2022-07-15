@@ -1,19 +1,20 @@
 const state = {
-  setSate: function (name, value, callback) {
+  setState: function (name, value, callback) {
     const oldValue = this[name];
     const dataChange = { name, value, oldValue };
     switch (typeof value) {
       case "object":
         if (value && oldValue) {
-          if (value.length !== oldValue.length) callback(dataChange);
-        } else {
+          if (value.length !== oldValue.length && callback)
+            callback(dataChange);
+        } else if (callback) {
           callback(dataChange);
         }
         break;
       case "function":
         if (value && oldValue) {
-          if (oldValue.name !== value.name) callback(dataChange);
-        } else {
+          if (oldValue.name !== value.name && callback) callback(dataChange);
+        } else if (callback) {
           callback(dataChange);
         }
         break;
@@ -24,7 +25,7 @@ const state = {
       case "boolean":
       case "symbol":
       default:
-        if (oldValue !== value) callback(dataChange);
+        if (oldValue !== value && callback) callback(dataChange);
         break;
     }
     this[name] = value;

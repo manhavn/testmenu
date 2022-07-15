@@ -36,9 +36,10 @@ import {
   lastChild,
   movePositionElement,
 } from "../define/functions";
+import state from "../define/state";
 
-const styleOutlineMain = "#f00 2px solid";
-const styleOutlineMainDrop = "#00f 1px dashed";
+const styleOutlineMain = "#000 1px solid";
+const styleOutlineMainDrop = "#000 1px dashed";
 
 const navList = [
   { name: "Teaser", value: TEASER_LAYOUT, type: TEASER_LAYOUT },
@@ -60,6 +61,7 @@ export default function Frame() {
 
   const [iframeDragStart, setIframeDragStart] = useState(null);
   const [iframeDragEnd, setIframeDragEnd] = useState(null);
+  const [iframeDrop, setIframeDrop] = useState(null);
 
   const [iframeWebWindow, setIframeWebWindow] = useState(null);
   const [contentWindow, setContentWindow] = useState(null);
@@ -92,15 +94,8 @@ export default function Frame() {
   }, [iframeWebWindow]);
 
   useEffect(() => {
-    if (contentWindow && body) {
-      contentWindow[iframeState] = {
-        setState: function (key, value, callback) {
-          if (this[key] !== value) {
-            this[key] = value;
-            if (callback) callback();
-          }
-        },
-      };
+    if (contentWindow && body && dataJson) {
+      contentWindow[iframeState] = state;
 
       contentWindow.onmousedown = () => {
         contentWindow.document
@@ -113,16 +108,31 @@ export default function Frame() {
         setSelected("");
       };
 
-      body.onmouseover = ({ target, layerX, layerY }) => {
-        const mainId = target.getAttribute(MAINID);
+      body.onmouseover = ({ target }) => {
+        let mainId = target.getAttribute(MAINID);
         const documentIframe = contentWindow.document;
+        let checkContain = target;
+        if (target.farthestViewportElement) {
+          checkContain = target.farthestViewportElement.parentElement;
+          mainId = checkContain.getAttribute(MAINID);
+        }
 
         if (mainId) {
           const mainElement = documentIframe.getElementById(mainId);
-          if (mainElement) {
+          const checkContainId = checkContain.id;
+          if (mainElement && checkContainId) {
             mainElement.style.outline = styleOutlineMain;
-            if (mainElement.contains(target)) {
-              target.onmousedown = () => {
+            const mainData = dataJson.childElements[mainId];
+            const moveData = dataJson.childElements[checkContainId];
+            if (
+              mainData &&
+              moveData &&
+              mainElement.contains(checkContain) &&
+              mainData.originName === mainId &&
+              moveData.mainId === mainId &&
+              moveData.originName === checkContainId
+            ) {
+              target.onmousedown = ({ layerX, layerY }) => {
                 const dropNameType = mainElement.getAttribute(DRAGTYPE);
                 if (dropNameType) {
                   documentIframe
@@ -185,9 +195,12 @@ export default function Frame() {
         ev.preventDefault();
         setDragover(ev);
       };
-      body.ondrop = (ev) => ev.preventDefault();
+      body.ondrop = (ev) => {
+        ev.preventDefault();
+        setIframeDrop(ev);
+      };
     }
-  }, [body, contentWindow]);
+  }, [body, contentWindow, dataJson]);
 
   useEffect(() => {
     if (body && contentWindow && moveFixedAbsoluteData) {
@@ -332,12 +345,19 @@ export default function Frame() {
   }, [contentWindow, menuDragStart]);
 
   useEffect(() => {
-    if (dragId && menuDragEnd && dragenter && contentWindow && dataJson) {
+    if (
+      dragId &&
+      menuDragEnd &&
+      iframeDrop &&
+      dragenter &&
+      contentWindow &&
+      dataJson
+    ) {
       setDragId("");
       const { target } = dragenter;
       const { target: targetDrag } = menuDragEnd;
       if (targetDrag.getAttribute(DRAGTYPE) === target.getAttribute(DROPTYPE)) {
-        dragging(target, targetDrag, contentWindow, {
+        dragging(target, targetDrag, contentWindow, iframeDrop, {
           dataJson,
           teaserLayout,
           popupLayout,
@@ -365,6 +385,7 @@ export default function Frame() {
                   dropChild,
                   targetDrag,
                   contentWindow,
+                  iframeDrop,
                   {
                     dataJson,
                     teaserLayout,
@@ -375,7 +396,7 @@ export default function Frame() {
                   moveName
                 );
               } else {
-                dragging(value, targetDrag, contentWindow, {
+                dragging(value, targetDrag, contentWindow, iframeDrop, {
                   dataJson,
                   teaserLayout,
                   popupLayout,
@@ -386,6 +407,7 @@ export default function Frame() {
             }
           });
       }
+      setIframeDrop(null);
       setDragenter(null);
       setMouseDown("");
       setSelected("");
@@ -397,6 +419,7 @@ export default function Frame() {
     dragElementOverY,
     dragId,
     dragenter,
+    iframeDrop,
     menuDragEnd,
     popupLayout,
     popupWidget,
@@ -523,6 +546,7 @@ export default function Frame() {
 
               parentElement: teaserBackground,
               addNewElement: false,
+              addAndSetPosition: false,
             });
           });
         } else {
@@ -545,6 +569,7 @@ export default function Frame() {
 
               parentElement: popupBackground,
               addNewElement: false,
+              addAndSetPosition: false,
             });
           });
         } else {

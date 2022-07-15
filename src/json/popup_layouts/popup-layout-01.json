@@ -46,7 +46,7 @@
           "editLocation": false,
           "editCss": true,
           "location": ".BodyWrapper",
-          "css": "height: 100%;    display: flex;    flex-direction: column;    align-items: flex-start;    justify-content: center;    padding: 23px;    background: linear-gradient(270deg,hsla(0,0%,100%,0) 41%,#fff 64%);"
+          "css": "height: 100%;    display: flex;    flex-direction: column;    align-items: flex-start;    justify-content: center;    padding: 23px;"
         }
       ],
       "childElementIds": ["Border"]

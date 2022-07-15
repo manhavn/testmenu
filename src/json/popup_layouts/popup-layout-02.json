@@ -10,6 +10,12 @@
         {
           "editName": false,
           "editValue": false,
+          "name": "droptype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
           "name": "class",
           "value": "Modal"
         }
@@ -31,11 +37,23 @@
         {
           "editName": false,
           "editValue": false,
+          "name": "droptype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "close-button"
+        },
+        {
+          "editName": false,
+          "editValue": false,
           "name": "class",
           "value": "CloseBtn"
         }
       ],
-      "script": "document.querySelector('[class=\"CloseBtn\"]').onmouseover=ev=>{console.log(ev)}",
+      "script": "document.querySelector('[class=\"CloseBtn\"]').onclick=ev=>{console.log(ev)}",
       "style": [
         {
           "editLocation": false,
@@ -96,6 +114,12 @@
         {
           "editName": false,
           "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
           "name": "class",
           "value": "Border"
         }
@@ -117,6 +141,18 @@
         {
           "editName": false,
           "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
           "name": "class",
           "value": "Header"
         }
@@ -126,7 +162,7 @@
           "editLocation": false,
           "editCss": true,
           "location": ".Header",
-          "css": "letter-spacing: .02em;    font-size: 40px;    line-height: 40px;    font-weight: 700;    color: #510C05;    max-width: 380px;    text-transform: uppercase;    overflow: hidden;"
+          "css": "position: absolute; letter-spacing: .02em;    font-size: 40px;    line-height: 40px;    font-weight: 700;    color: #510C05;    max-width: 380px;    text-transform: uppercase;    overflow: hidden;"
         }
       ],
       "childElementIds": ["textHeader"]
@@ -142,6 +178,18 @@
         {
           "editName": false,
           "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
           "name": "class",
           "value": "Description"
         }
@@ -151,7 +199,7 @@
           "editLocation": false,
           "editCss": true,
           "location": ".Description",
-          "css": "font-size: 18px;    color: #333;    color:#510C05;    font-weight: 400;    margin-top: 16px;    overflow: hidden;    max-width: 315px;    line-height: 24px;    text-align: left;"
+          "css": "position: absolute; font-size: 18px;    color: #333;    color:#510C05;    font-weight: 400;    margin-top: 16px;    overflow: hidden;    max-width: 315px;    line-height: 24px;    text-align: left;"
         }
       ],
       "childElementIds": ["textDescription"]
@@ -164,6 +212,18 @@
       "type": "tag",
       "tagName": "div",
       "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
         {
           "editName": false,
           "editValue": false,

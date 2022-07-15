@@ -13,6 +13,7 @@ import {
   TEASER_BACKGROUND,
   TEASER_LAYOUT,
   TEMPLATE,
+  WIDGETTYPE,
 } from "./consts";
 
 export const iframeState = getNewTimeString();
@@ -37,6 +38,11 @@ export function jsonAppendDataHtmlByID({
   dropType,
   moveType,
   addNewElement,
+
+  addAndSetPosition,
+  iframeDrop,
+  contentWindow,
+  moveNameType,
 }) {
   switch (newChildElement.type) {
     case "text":
@@ -60,6 +66,7 @@ export function jsonAppendDataHtmlByID({
         newChildElement.attribute = attributes;
         if (mainId) {
           element.setAttribute(MAINID, mainId);
+          newChildElement.mainId = mainId;
           newChildElement.attribute.push({
             editName: false,
             editValue: false,
@@ -68,6 +75,7 @@ export function jsonAppendDataHtmlByID({
           });
         }
         if (originName) {
+          newChildElement.originName = originName;
           element.setAttribute(ELEMENT_ID, originName);
           newChildElement.attribute.push({
             editName: false,
@@ -156,6 +164,25 @@ export function jsonAppendDataHtmlByID({
         });
       }
       parentElement.appendChild(element);
+      if (addAndSetPosition && contentWindow && element.id) {
+        const { pageX, pageY } = iframeDrop;
+        const moveElement = contentWindow.document.getElementById(element.id);
+        const { offsetWidth, offsetHeight, style } = moveElement;
+        mouseMovingChangePosition(
+          contentWindow,
+          pageX,
+          pageY,
+          offsetWidth,
+          offsetWidth / 2,
+          offsetHeight,
+          offsetHeight / 2,
+          moveNameType,
+          moveElement.getAttribute(WIDGETTYPE),
+          style,
+          originData,
+          mainId
+        );
+      }
       break;
     default:
       break;
@@ -282,6 +309,7 @@ export function moving(drop, drag, contentWindow, dataJson, moveName) {
       mainElement.onmousedown = null;
       mainElement.onclick = null;
       mainElement.removeAttribute(DRAGGABLE);
+      contentWindow[iframeState].setState(iframeMainElementSelected, null);
     }
   }
 }
@@ -290,11 +318,12 @@ export function dragging(
   drop,
   drag,
   contentWindow,
+  iframeDrop,
   { dataJson, teaserLayout, popupLayout, popupWidget, template },
   moveName
 ) {
   if (moveName) console.log("moveName src/define/functions.js 237", moveName);
-  const documentIframe = contentWindow.document;
+  const { document: documentIframe } = contentWindow;
   const newElementId = new Date().getTime().toString();
   switch (drag.getAttribute(DRAGTYPE)) {
     case TEASER_LAYOUT:
@@ -317,6 +346,10 @@ export function dragging(
           layoutType: drag.id,
           moveType: TEASER_LAYOUT,
           addNewElement: true,
+          addAndSetPosition: true,
+          iframeDrop,
+          contentWindow,
+          moveNameType: TEASER_LAYOUT,
         });
       });
       documentIframe.querySelector(
@@ -342,6 +375,7 @@ export function dragging(
           mainId: newElementId,
           layoutType: drag.id,
           addNewElement: true,
+          addAndSetPosition: false,
         });
       });
       documentIframe.querySelector(
@@ -362,6 +396,10 @@ export function dragging(
           mainId: newChildId,
           layoutType: drag.id,
           addNewElement: true,
+          addAndSetPosition: true,
+          iframeDrop,
+          contentWindow,
+          moveNameType: POPUP_WIDGET,
         });
       });
       documentIframe.querySelector(
@@ -429,6 +467,132 @@ export function getNewAbsolutePosition(m, l, f, s, c, t) {
   return n;
 }
 
+function mouseMovingChangePosition(
+  contentWindow,
+  pageX,
+  pageY,
+  offsetWidth,
+  layerX,
+  offsetHeight,
+  layerY,
+  moveNameType,
+  widgetType,
+  style,
+  dataJson,
+  mainId
+) {
+  const { innerWidth, innerHeight, scrollX, scrollY } = contentWindow;
+
+  const positionMouseX = pageX - scrollX;
+  const positionMouseY = pageY - scrollY;
+  const positionMouseRightX = innerWidth + scrollX - pageX;
+  const positionMouseRightY = innerHeight + scrollY - pageY;
+
+  let elLeft, elTop, elRight, elBottom;
+  const layerRightX = offsetWidth - layerX;
+  const layerRightY = offsetHeight - layerY;
+
+  switch (moveNameType) {
+    case TEASER_LAYOUT:
+      elLeft = getNewPercentValue(positionMouseX, layerX, innerWidth);
+      elTop = getNewPercentValue(positionMouseY, layerY, innerHeight);
+      elRight = getNewPercentValue(
+        positionMouseRightX,
+        layerRightX,
+        innerWidth
+      );
+      elBottom = getNewPercentValue(
+        positionMouseRightY,
+        layerRightY,
+        innerHeight
+      );
+      break;
+    case POPUP_WIDGET:
+      const { clientWidth, clientHeight } =
+        contentWindow.document.querySelector(`[${DROPTYPE}="${POPUP_WIDGET}"]`);
+      elLeft = getNewAbsolutePosition(
+        positionMouseX,
+        layerX,
+        positionMouseX,
+        positionMouseRightX,
+        clientWidth,
+        widgetType
+      );
+      elRight = getNewAbsolutePosition(
+        positionMouseRightX,
+        layerRightX,
+        positionMouseX,
+        positionMouseRightX,
+        clientWidth,
+        widgetType
+      );
+      elTop = getNewAbsolutePosition(
+        positionMouseY,
+        layerY,
+        positionMouseY,
+        positionMouseRightY,
+        clientHeight,
+        widgetType
+      );
+      elBottom = getNewAbsolutePosition(
+        positionMouseRightY,
+        layerRightY,
+        positionMouseY,
+        positionMouseRightY,
+        clientHeight,
+        widgetType
+      );
+      break;
+    default:
+      break;
+  }
+
+  const { left, top, right, bottom } = getNewPosition({
+    elLeft,
+    elTop,
+    elRight,
+    elBottom,
+  });
+  style.left = left || emptyString;
+  style.top = top || emptyString;
+  style.right = right || emptyString;
+  style.bottom = bottom || emptyString;
+
+  const styleName = "style";
+  let indexOld = 0;
+  let styleData;
+  let elementData = dataJson.childElements[mainId];
+  if (
+    elementData &&
+    elementData.attribute &&
+    elementData.attribute.length > 0
+  ) {
+    styleData = elementData.attribute.filter(({ name }, index) => {
+      if (name === styleName) {
+        indexOld = index;
+        return true;
+      }
+      return false;
+    })[0];
+  }
+  let { editName, editValue } = styleData || {};
+  let newStyleData = {
+    editName: !!editName,
+    editValue: !!editValue,
+    name: styleName,
+    value: `${left ? `left: ${left}; ` : emptyString}${
+      top ? `top: ${top}; ` : emptyString
+    }${right ? `right: ${right}; ` : emptyString}${
+      bottom ? `bottom: ${bottom}; ` : emptyString
+    }`,
+  };
+  if (indexOld === 0) {
+    dataJson.childElements[mainId].attribute.push(newStyleData);
+  } else {
+    dataJson.childElements[mainId].attribute[indexOld] = newStyleData;
+  }
+}
+
 export function movePositionElement(
   body,
   contentWindow,
@@ -458,116 +622,19 @@ export function movePositionElement(
   contentWindow.onmousemove = ({ pageX, pageY, target }) => {
     if (target && target.style) target.style.cursor = "default";
     body.onselectstart = () => false;
-
-    const { innerWidth, innerHeight, scrollX, scrollY } = contentWindow;
-
-    const positionMouseX = pageX - scrollX;
-    const positionMouseY = pageY - scrollY;
-    const positionMouseRightX = innerWidth + scrollX - pageX;
-    const positionMouseRightY = innerHeight + scrollY - pageY;
-
-    let elLeft, elTop, elRight, elBottom;
-    const layerRightX = offsetWidth - layerX;
-    const layerRightY = offsetHeight - layerY;
-
-    switch (moveNameType) {
-      case TEASER_LAYOUT:
-        elLeft = getNewPercentValue(positionMouseX, layerX, innerWidth);
-        elTop = getNewPercentValue(positionMouseY, layerY, innerHeight);
-        elRight = getNewPercentValue(
-          positionMouseRightX,
-          layerRightX,
-          innerWidth
-        );
-        elBottom = getNewPercentValue(
-          positionMouseRightY,
-          layerRightY,
-          innerHeight
-        );
-        break;
-      case POPUP_WIDGET:
-        const { clientWidth, clientHeight } =
-          contentWindow.document.querySelector(
-            `[${DROPTYPE}="${POPUP_WIDGET}"]`
-          );
-        elLeft = getNewAbsolutePosition(
-          positionMouseX,
-          layerX,
-          positionMouseX,
-          positionMouseRightX,
-          clientWidth,
-          widgetType
-        );
-        elRight = getNewAbsolutePosition(
-          positionMouseRightX,
-          layerRightX,
-          positionMouseX,
-          positionMouseRightX,
-          clientWidth,
-          widgetType
-        );
-        elTop = getNewAbsolutePosition(
-          positionMouseY,
-          layerY,
-          positionMouseY,
-          positionMouseRightY,
-          clientHeight,
-          widgetType
-        );
-        elBottom = getNewAbsolutePosition(
-          positionMouseRightY,
-          layerRightY,
-          positionMouseY,
-          positionMouseRightY,
-          clientHeight,
-          widgetType
-        );
-        break;
-      default:
-        break;
-    }
-
-    const { left, top, right, bottom } = getNewPosition({
-      elLeft,
-      elTop,
-      elRight,
-      elBottom,
-    });
-    style.left = left || emptyString;
-    style.top = top || emptyString;
-    style.right = right || emptyString;
-    style.bottom = bottom || emptyString;
-
-    const styleName = "style";
-    let indexOld = 0;
-    let styleData;
-    let elementData = dataJson.childElements[mainId];
-    if (
-      elementData &&
-      elementData.attribute &&
-      elementData.attribute.length > 0
-    ) {
-      styleData = elementData.attribute.filter(({ name }, index) => {
-        if (name === styleName) {
-          indexOld = index;
-          return true;
-        }
-        return false;
-      })[0];
-    }
-    let { editName, editValue } = styleData || {};
-    let newStyleData = {
-      editName: !!editName,
-      editValue: !!editValue,
-      name: styleName,
-      value: `left: ${left || emptyString}; top: ${
-        top || emptyString
-      }; right: ${right || emptyString}; bottom: ${bottom || emptyString};`,
-    };
-    if (indexOld === 0) {
-      dataJson.childElements[mainId].attribute.push(newStyleData);
-    } else {
-      dataJson.childElements[mainId].attribute[indexOld] = newStyleData;
-    }
+    mouseMovingChangePosition(
+      contentWindow,
+      pageX,
+      pageY,
+      offsetWidth,
+      layerX,
+      offsetHeight,
+      layerY,
+      moveNameType,
+      widgetType,
+      style,
+      dataJson,
+      mainId
+    );
   };
 }
