@@ -24,6 +24,13 @@ export const before = "before";
 export const lastChild = "lastChild";
 export const firstChild = "firstChild";
 export const emptyString = "";
+export const defaultString = "default";
+export const textString = "text";
+export const svgString = "svg";
+export const tagString = "tag";
+export const styleString = "style";
+export const scriptString = "script";
+export const divString = "div";
 
 export function jsonAppendDataHtmlByID({
   originData,
@@ -48,14 +55,14 @@ export function jsonAppendDataHtmlByID({
   moveNameType,
 }) {
   switch (newChildElement.type) {
-    case "text":
-    case "svg":
+    case textString:
+    case svgString:
       parentElement.innerHTML += newChildElement.value;
       originData.childElements[originName] = {
         ...newChildElement,
       };
       break;
-    case "tag":
+    case tagString:
       const { childElementIds } = newChildElement;
       const element = document.createElement(newChildElement.tagName);
 
@@ -129,7 +136,7 @@ export function jsonAppendDataHtmlByID({
       // Style
       const styles = newChildElement.style || [];
       if (styles.length > 0) {
-        const styleElement = document.createElement("style");
+        const styleElement = document.createElement(styleString);
         styles.forEach(({ location, css }) => {
           styleElement.innerHTML += `${location} { ${css} } `;
         });
@@ -139,7 +146,7 @@ export function jsonAppendDataHtmlByID({
 
       // script
       if (newChildElement.script) {
-        const scriptElement = document.createElement("script");
+        const scriptElement = document.createElement(scriptString);
         scriptElement.innerHTML = newChildElement.script;
         element.appendChild(scriptElement);
       }
@@ -208,13 +215,13 @@ export function jsonAppendDataHtmlByID({
 }
 
 export function addStringDataToHtml(stringData, element) {
-  const temp = document.createElement("div");
+  const temp = document.createElement(divString);
   temp.innerHTML = stringData;
   element.appendChild(temp.firstChild);
   temp.remove();
 }
 
-export function getNewTimeString(prefix = "") {
+export function getNewTimeString(prefix = emptyString) {
   return `${prefix}${new Date().getTime().toString()}`;
 }
 
@@ -223,7 +230,7 @@ export function jsonElementToHtml({ tagName, attribute, style }) {
   (attribute || []).forEach(({ name, value }) => {
     element.setAttribute(name, value);
   });
-  const styleElement = document.createElement("style");
+  const styleElement = document.createElement(styleString);
   (style || []).forEach(({ location, css }) => {
     styleElement.innerHTML += `${location} { ${css} } `;
   });
@@ -463,7 +470,7 @@ export function moving(drop, drag, contentWindow, dataJson, moveName) {
   if (contentWindow[iframeState]) {
     const mainElement = contentWindow[iframeState][iframeMainElementSelected];
     if (mainElement) {
-      mainElement.style.outline = "";
+      mainElement.style.outline = emptyString;
       mainElement.onmouseout = null;
       mainElement.ondragstart = null;
       mainElement.ondragend = null;
@@ -480,11 +487,10 @@ export function dragging(
   drag,
   contentWindow,
   iframeDrop,
-  { dataJson, teaserLayout, popupLayout, popupWidget, template },
+  { dataJson, teaserLayout, popupLayout, popupWidget },
   moveName,
   dropChild
 ) {
-  if (template) console.log("template: src/define/functions.js 334", template);
   const { document: documentIframe } = contentWindow;
   const newElementId = new Date().getTime().toString();
   switch (drag.getAttribute(DRAGTYPE)) {
@@ -729,7 +735,6 @@ function mouseMovingChangePosition(
   style.right = right || emptyString;
   style.bottom = bottom || emptyString;
 
-  const styleName = "style";
   let indexOld = 0;
   let styleData;
   let elementData = dataJson.childElements[mainId];
@@ -739,7 +744,7 @@ function mouseMovingChangePosition(
     elementData.attribute.length > 0
   ) {
     styleData = elementData.attribute.filter(({ name }, index) => {
-      if (name === styleName) {
+      if (name === styleString) {
         indexOld = index;
         return true;
       }
@@ -750,7 +755,7 @@ function mouseMovingChangePosition(
   let newStyleData = {
     editName: !!editName,
     editValue: !!editValue,
-    name: styleName,
+    name: styleString,
     value: `${left ? `left: ${left}; ` : emptyString}${
       top ? `top: ${top}; ` : emptyString
     }${right ? `right: ${right}; ` : emptyString}${
@@ -788,10 +793,10 @@ export function movePositionElement(
     props.setMoveFixedAbsoluteData(null);
   };
   contentWindow.onmouseout = ({ target }) => {
-    target.style.cursor = "";
+    target.style.cursor = emptyString;
   };
   contentWindow.onmousemove = ({ pageX, pageY, target }) => {
-    if (target && target.style) target.style.cursor = "default";
+    if (target && target.style) target.style.cursor = defaultString;
     body.onselectstart = () => false;
     mouseMovingChangePosition(
       contentWindow,

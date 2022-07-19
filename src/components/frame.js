@@ -35,6 +35,7 @@ import {
   setAfterBeforeAppend,
   lastChild,
   movePositionElement,
+  emptyString,
 } from "../define/functions";
 import state from "../define/state";
 
@@ -50,9 +51,9 @@ const navList = [
 ];
 
 export default function Frame() {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(emptyString);
   const [mouse, setMouse] = useState(false);
-  const [mouseDown, setMouseDown] = useState("");
+  const [mouseDown, setMouseDown] = useState(emptyString);
 
   const [resetDragData, setResetDragData] = useState(null);
 
@@ -83,7 +84,7 @@ export default function Frame() {
   const [popupWidget, setPopupWidget] = useState(null);
   const [template, setTemplate] = useState(null);
 
-  const [dragId, setDragId] = useState("");
+  const [dragId, setDragId] = useState(emptyString);
 
   useEffect(() => {
     if (iframeWebWindow) {
@@ -105,7 +106,7 @@ export default function Frame() {
             value.style = {};
             value.style.display = display;
           });
-        setSelected("");
+        setSelected(emptyString);
       };
 
       body.onmouseover = ({ target }) => {
@@ -167,8 +168,8 @@ export default function Frame() {
                 documentIframe
                   .querySelectorAll(`[${DROPTYPE}]`)
                   .forEach((value) => {
-                    value.style.outline = "";
-                    value.style.zIndex = "";
+                    value.style.outline = emptyString;
+                    value.style.zIndex = emptyString;
                   });
 
                 mainElement.ondragstart = null;
@@ -179,7 +180,7 @@ export default function Frame() {
                 console.log(mainId);
               };
               mainElement.onmouseout = () => {
-                mainElement.style.outline = "";
+                mainElement.style.outline = emptyString;
                 mainElement.onmouseout = null;
                 target.onmousedown = null;
                 target.onmouseup = null;
@@ -244,7 +245,6 @@ export default function Frame() {
           ).style = {};
           break;
         case TEMPLATE:
-          console.log(TEMPLATE);
           break;
         default:
           break;
@@ -254,10 +254,10 @@ export default function Frame() {
 
   useEffect(() => {
     if (menuDragStart && contentWindow) {
-      setMouseDown("");
-      setSelected("");
-      setIframeDragStart("");
-      setIframeDragEnd("");
+      setMouseDown(emptyString);
+      setSelected(emptyString);
+      setIframeDragStart(emptyString);
+      setIframeDragEnd(emptyString);
       setResetDragData((v) => !v);
 
       const { target } = menuDragStart;
@@ -310,8 +310,6 @@ export default function Frame() {
             break;
           case TEMPLATE:
             url = `${hostApi}/templates/${target.id}.json`;
-
-            console.log("menuDragStart: ", TEMPLATE);
             break;
           default:
             break;
@@ -353,7 +351,7 @@ export default function Frame() {
       contentWindow &&
       dataJson
     ) {
-      setDragId("");
+      setDragId(emptyString);
       const { target } = dragenter;
       const { target: targetDrag } = menuDragEnd;
       if (targetDrag.getAttribute(DRAGTYPE) === target.getAttribute(DROPTYPE)) {
@@ -362,7 +360,6 @@ export default function Frame() {
           teaserLayout,
           popupLayout,
           popupWidget,
-          template,
         });
       } else {
         contentWindow.document
@@ -384,7 +381,6 @@ export default function Frame() {
                       teaserLayout,
                       popupLayout,
                       popupWidget,
-                      template,
                     },
                     dragElementOverY ? after : before,
                     dropChild
@@ -397,8 +393,8 @@ export default function Frame() {
       }
       setIframeDrop(null);
       setDragenter(null);
-      setMouseDown("");
-      setSelected("");
+      setMouseDown(emptyString);
+      setSelected(emptyString);
       setMenuDragEnd(null);
     }
   }, [
@@ -412,7 +408,6 @@ export default function Frame() {
     popupLayout,
     popupWidget,
     teaserLayout,
-    template,
   ]);
 
   useEffect(() => {
@@ -576,6 +571,19 @@ export default function Frame() {
   }, [dataJson]);
 
   useEffect(() => {
+    if (template && menuDragEnd && menuDragStart && dragenter) {
+      setDataJson(null);
+      setSrcDoc(null);
+      setDataJson(template);
+
+      setTemplate(null);
+      setMenuDragEnd(null);
+      setMenuDragStart(null);
+      setDragenter(null);
+    }
+  }, [menuDragEnd, menuDragStart, dragenter, template]);
+
+  useEffect(() => {
     fetch("http://localhost:9999/popup-shop-custom.json")
       .then((res) => {
         return res.json();
@@ -612,7 +620,7 @@ export default function Frame() {
       <div
         className={"desktop"}
         onClick={() => {
-          if (!mouse) setSelected("");
+          if (!mouse) setSelected(emptyString);
         }}
       >
         <div
@@ -632,7 +640,7 @@ export default function Frame() {
           <Menu
             navSelected={selected}
             setSelected={setSelected}
-            setMouseUp={() => setMouseDown("")}
+            setMouseUp={() => setMouseDown(emptyString)}
             mouseDown={mouseDown}
             setMouseDown={setMouseDown}
             setMenuDragStart={setMenuDragStart}

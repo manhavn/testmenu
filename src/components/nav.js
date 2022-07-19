@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import "./nav.css";
+import { emptyString } from "../define/functions";
 
 export default function Nav({ navSelected, setSelected, navList }) {
   const [action, setAction] = useState();
@@ -15,8 +16,8 @@ export default function Nav({ navSelected, setSelected, navList }) {
 
     if (action === true) {
       setAction(false);
-      setSelected(navSelected === btnClick ? "" : btnClick);
-      setBtnClick("");
+      setSelected(navSelected === btnClick ? emptyString : btnClick);
+      setBtnClick(emptyString);
     }
   }, [btnClick, action, divClick, setSelected, navSelected]);
 

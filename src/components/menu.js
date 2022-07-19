@@ -1,6 +1,7 @@
 import React from "react";
 import "./menu.css";
 import { useEffect, useState } from "react";
+import { emptyString } from "../define/functions";
 
 export default function Menu({
   navSelected,
@@ -12,13 +13,13 @@ export default function Menu({
   setMenuDragEnd,
   navList,
 }) {
-  const [title, setTitle] = useState("");
-  const [valueSelected, setValueSelected] = useState("");
-  const [typeSelected, setTypeSelected] = useState("");
+  const [title, setTitle] = useState(emptyString);
+  const [valueSelected, setValueSelected] = useState(emptyString);
+  const [typeSelected, setTypeSelected] = useState(emptyString);
   const [listItem, setListItem] = useState([]);
   useEffect(() => {
     if (!navSelected) {
-      setTitle("");
+      setTitle(emptyString);
       return;
     }
     if (navList) {
@@ -45,7 +46,7 @@ export default function Menu({
         className="menu"
         style={{ marginLeft: navSelected ? "0" : "-300px" }}
       >
-        <button className={"close"} onClick={() => setSelected("")}>
+        <button className={"close"} onClick={() => setSelected(emptyString)}>
           close
         </button>
         <div className={"title"}>{title || "Menu"}</div>

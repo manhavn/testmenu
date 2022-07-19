@@ -1,16 +1,16 @@
 {
   "popupWidget": {
-    "childElementIds": ["popupWidget04"]
+    "childElementIds": ["Btn"]
   },
   "childElements": {
-    "popupWidget04": {
+    "Btn": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
         {
           "editName": false,
           "editValue": false,
-          "name": "dragtype",
+          "name": "movetype",
           "value": "popup-widget"
         },
         {
@@ -23,36 +23,67 @@
           "editName": false,
           "editValue": false,
           "name": "class",
-          "value": "popupWidget04"
+          "value": "Btn"
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".popupWidget04",
+          "location": ".Btn",
+          "css": "position: absolute; margin-top: 20px;    padding: 7px 20px;    height: 38px;    width: 180px;    display: flex;    align-items: center;    justify-content: center;    font-size: 16px;    text-align: center;    background-color: #fff;    color: #510C05;    font-weight: 500;    border: 1px solid #510C05;    cursor: pointer;    border-radius: 30px;    margin-left: 4px;"
+        }
+      ],
+      "childElementIds": ["textBtn"]
+    },
+    "textBtn": {
+      "type": "text",
+      "value": "SIGN UP"
+    },
+    "popupWidget03": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "dragtype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "popupWidget03"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".popupWidget03",
           "css": "color: green;"
         }
       ],
-      "childElementIds": ["div04", "div02"]
+      "childElementIds": ["div03", "div02"]
     },
-    "div04": {
+    "div03": {
       "type": "tag",
       "tagName": "div",
       "attribute": [],
       "style": [],
-      "childElementIds": ["div0404"]
+      "childElementIds": ["div0303"]
     },
-    "div0404": {
+    "div0303": {
       "type": "tag",
       "tagName": "div",
       "attribute": [],
       "style": [],
-      "childElementIds": ["div0404text"]
+      "childElementIds": ["div0303text"]
     },
-    "div0404text": {
+    "div0303text": {
       "type": "text",
-      "value": "div-04-04-text 444444444"
+      "value": "div-03-03-text 3333333333"
     },
     "div02": {
       "type": "tag",
@@ -62,14 +93,14 @@
           "editName": false,
           "editValue": false,
           "name": "class",
-          "value": "popup-widget-04-div-02"
+          "value": "popup-widget-03-div-02"
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".popup-widget-04-div-02",
+          "location": ".popup-widget-03-div-02",
           "css": "color: red;"
         }
       ],
@@ -77,7 +108,7 @@
     },
     "div02text": {
       "type": "text",
-      "value": "div-02-text 444444444"
+      "value": "div-02-text 3333333333"
     }
   }
 }

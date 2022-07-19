@@ -1,9 +1,9 @@
 {
   "popupWidget": {
-    "childElementIds": ["Main"]
+    "childElementIds": ["TextField"]
   },
   "childElements": {
-    "Main": {
+    "TextField": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
@@ -23,52 +23,23 @@
           "editName": false,
           "editValue": false,
           "name": "class",
-          "value": "Main"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".Main",
-          "css": "position: absolute;"
-        }
-      ],
-      "childElementIds": ["Subscribe"]
-    },
-    "Subscribe": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "class",
-          "value": "Subscribe"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".Subscribe",
-          "css": "min-width: 311px;    margin: 30px auto auto;    width: 100%;"
-        }
-      ],
-      "childElementIds": ["TextField", "Btn"]
-    },
-    "TextField": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "class",
           "value": "TextField"
         }
       ],
-      "style": [],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".TextField",
+          "css": "position: absolute;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".TextField .Input",
+          "css": "font-weight: 400;    border: none;    text-transform: none;    letter-spacing: normal;    position: relative;    display: flex;    align-items: center;    cursor: text;    width: 100%;    line-height: 2.4rem;    border: none;    border-radius: 0;    outline: none;    background: transparent;    border-bottom: 1px solid #380701;"
+        }
+      ],
       "childElementIds": ["Input"]
     },
     "Input": {
@@ -88,110 +59,8 @@
           "value": "Enter your email"
         }
       ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".Input",
-          "css": "font-weight: 400;    border: none;    text-transform: none;    letter-spacing: normal;    position: relative;    display: flex;    align-items: center;    cursor: text;    width: 100%;    line-height: 2.4rem;    border: none;    border-radius: 0;    outline: none;    background: transparent;    border-bottom: 1px solid #380701;"
-        }
-      ],
+      "style": [],
       "childElementIds": []
-    },
-    "Btn": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "class",
-          "value": "Btn"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".Btn",
-          "css": "margin-top: 20px;    padding: 7px 20px;    height: 38px;    width: 180px;    display: flex;    align-items: center;    justify-content: center;    font-size: 16px;    text-align: center;    background-color: #fff;    color: #510C05;    font-weight: 500;    border: 1px solid #510C05;    cursor: pointer;    border-radius: 30px;    margin-left: 4px;"
-        }
-      ],
-      "childElementIds": ["textBtn"]
-    },
-    "textBtn": {
-      "type": "text",
-      "value": "SIGN UP"
-    },
-    "popupWidget03": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "dragtype",
-          "value": "popup-widget"
-        },
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "class",
-          "value": "popupWidget03"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".popupWidget03",
-          "css": "color: green;"
-        }
-      ],
-      "childElementIds": ["div03", "div02"]
-    },
-    "div03": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [],
-      "style": [],
-      "childElementIds": ["div0303"]
-    },
-    "div0303": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [],
-      "style": [],
-      "childElementIds": ["div0303text"]
-    },
-    "div0303text": {
-      "type": "text",
-      "value": "div-03-03-text 3333333333"
-    },
-    "div02": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "class",
-          "value": "popup-widget-03-div-02"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".popup-widget-03-div-02",
-          "css": "color: red;"
-        }
-      ],
-      "childElementIds": ["div02text"]
-    },
-    "div02text": {
-      "type": "text",
-      "value": "div-02-text 3333333333"
     }
   }
 }

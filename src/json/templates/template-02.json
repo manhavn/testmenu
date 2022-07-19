@@ -1,9 +1,41 @@
 {
-  "template": {
-    "childElementIds": ["teaserLayout02", "popupLayout02"]
+  "teaserScreenBackground": {
+    "type": "tag",
+    "tagName": "div",
+    "attribute": [
+      {
+        "editName": false,
+        "editValue": false,
+        "name": "maintype",
+        "value": "teaser-background"
+      }
+    ],
+    "style": [],
+    "childElementIds": ["1658222552203"]
+  },
+  "popupScreenBackground": {
+    "type": "tag",
+    "tagName": "div",
+    "attribute": [
+      {
+        "editName": false,
+        "editValue": false,
+        "name": "maintype",
+        "value": "popup-background"
+      }
+    ],
+    "style": [
+      {
+        "editLocation": false,
+        "editCss": true,
+        "location": "[maintype=\"popup-background\"]",
+        "css": "margin: 0; padding: 0; border: 0; left: 0; top: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; position: fixed; display: flex; align-content: center; align-items: center; align-self: center; justify-content: center; justify-items: center; justify-self: center; background-color: #ffffff80; transition: all 0.5s ease; -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; -o-transition: all 0.5s ease; transition-duration: 0.5s;"
+      }
+    ],
+    "childElementIds": ["1658222556074"]
   },
   "childElements": {
-    "teaserLayout02": {
+    "1658222552203": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
@@ -11,20 +43,52 @@
           "editName": false,
           "editValue": false,
           "name": "class",
-          "value": "teaserLayout02"
+          "value": "teaserLayout05"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222552203"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222552203"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "teaser-layout-01"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "teaser-layout"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "top: 6.055363321799308%; right: 1.7032967032967032%; "
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".teaserLayout02",
-          "css": "position: fixed; top: 30px; left: 30px;"
+          "location": ".teaserLayout05",
+          "css": "position: fixed"
         }
       ],
-      "childElementIds": ["teaserDivText", "teaserLayout02test"]
+      "childElementIds": ["1658222552203-0"],
+      "mainId": "1658222552203",
+      "originName": "1658222552203"
     },
-    "teaserLayout02test": {
+    "1658222552203-0": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
@@ -32,24 +96,34 @@
           "editName": true,
           "editValue": true,
           "name": "class",
-          "value": "teaserLayout02test"
+          "value": "teaserDiv"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222552203"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222552203-0"
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".teaserLayout02test",
-          "css": "color:green;"
+          "location": ".teaserDiv",
+          "css": "position: relative; width: 244px; height: 44px; display: flex; align-content: center; align-items: center; align-self: center; justify-content: center; justify-items: center; justify-self: center; background-image: url(http://localhost:9999/images/signmeup.png); background-repeat: no-repeat;"
         }
       ],
-      "childElementIds": ["teaserLayout02testText"]
+      "childElementIds": ["1658222552203-0-0"],
+      "mainId": "1658222552203",
+      "originName": "1658222552203-0"
     },
-    "teaserLayout02testText": {
-      "type": "text",
-      "value": "teaserLayout02testText"
-    },
-    "teaserDivText": {
+    "1658222552203-0-0": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
@@ -58,6 +132,18 @@
           "editValue": true,
           "name": "class",
           "value": "teaserDivText"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222552203"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222552203-0-0"
         }
       ],
       "style": [
@@ -65,37 +151,18 @@
           "editLocation": false,
           "editCss": true,
           "location": ".teaserDivText",
-          "css": "color:blue;"
+          "css": "font-family: 'SF Pro Display';font-style: normal;font-weight: 700;font-size: 20px;line-height: 24px; color: #FFFFFF;"
         }
       ],
-      "childElementIds": ["teaserText"]
+      "childElementIds": ["1658222552203-0-0-0"],
+      "mainId": "1658222552203",
+      "originName": "1658222552203-0-0"
     },
-    "teaserText": {
+    "1658222552203-0-0-0": {
       "type": "text",
-      "value": "Teaser"
+      "value": "SIGN ME UP"
     },
-    "popupLayout02": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "class",
-          "value": "popupLayout02"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".popupLayout02",
-          "css": "position: fixed; width: 800px; height: 500px; background: #0ff; display: flex;"
-        }
-      ],
-      "childElementIds": ["rightPopupLayout02", "leftPopupLayout02"]
-    },
-    "rightPopupLayout02": {
+    "1658222556074": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
@@ -106,46 +173,870 @@
           "value": "popup-widget"
         },
         {
-          "editName": true,
-          "editValue": true,
+          "editName": false,
+          "editValue": false,
           "name": "class",
-          "value": "rightPopupLayout02"
+          "value": "Modal"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222556074"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222556074"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "popup-layout-01"
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".rightPopupLayout02",
-          "css": "color:green; width:50%; height:100%; background:#0aa"
+          "location": ".Modal",
+          "css": "position: relative;    max-width: 830px;    height: 505px;    width: 100%;    display: flex;    flex-direction: column;    box-shadow: 0 4px 15px hsl(0deg 0% 51% / 25%);    background-image: url(http://localhost:9999/images/Bg.png);    background-repeat: no-repeat;"
         }
       ],
-      "childElementIds": ["rightText"]
+      "childElementIds": [
+        "1658222556074-0",
+        "1658222556074-1",
+        "1658222556074-2",
+        "1658222556074-3",
+        "1658222556074-4",
+        "1658222556074-5"
+      ],
+      "mainId": "1658222556074",
+      "originName": "1658222556074"
     },
-    "rightText": {
-      "type": "text",
-      "value": "rightText"
-    },
-    "leftPopupLayout02": {
+    "1658222556074-0": {
       "type": "tag",
       "tagName": "div",
       "attribute": [
         {
-          "editName": true,
-          "editValue": true,
+          "editName": false,
+          "editValue": false,
           "name": "class",
-          "value": "leftPopupLayout02"
+          "value": "BodyWrapper"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222556074"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222556074-0"
         }
       ],
       "style": [
         {
           "editLocation": false,
           "editCss": true,
-          "location": ".leftPopupLayout02",
-          "css": "color:blue; width:50%; height:100%; background:#0bb"
+          "location": ".BodyWrapper",
+          "css": "height: 100%;    display: flex;    flex-direction: column;    align-items: flex-start;    justify-content: center;    padding: 23px;"
         }
       ],
-      "childElementIds": []
+      "childElementIds": ["1658222556074-0-0"],
+      "mainId": "1658222556074",
+      "originName": "1658222556074-0"
+    },
+    "1658222556074-0-0": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Border"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222556074"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222556074-0-0"
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Border",
+          "css": "display: flex;    flex-direction: column;    align-items: flex-start;    justify-content: center;    border: 3px solid #fff;    width: 100%;    height: 100%;    padding-left: 27px;    box-sizing: border-box;"
+        }
+      ],
+      "childElementIds": [],
+      "mainId": "1658222556074",
+      "originName": "1658222556074-0-0"
+    },
+    "1658222559306-0": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Header"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222559306-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222559306-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "popup-widget-01"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "top: 14.752475247524753%; right: 28.19277108433735%; "
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Header",
+          "css": "position: absolute; letter-spacing: .02em;    font-size: 40px;    line-height: 40px;    font-weight: 700;    color: #510C05;    max-width: 380px;    text-transform: uppercase;    overflow: hidden;"
+        }
+      ],
+      "childElementIds": ["1658222559306-0-0"],
+      "mainId": "1658222559306-0",
+      "originName": "1658222559306-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222559306-0-0": {
+      "type": "text",
+      "value": "JOIN US TODAY!"
+    },
+    "1658222563650-0": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Description"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222563650-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222563650-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "popup-widget-02"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "top: 30.594059405940595%; right: 29.03614457831325%; "
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Description",
+          "css": "position: absolute; font-size: 18px;    color: #333;    color:#510C05;    font-weight: 400;    margin-top: 16px;    overflow: hidden;    max-width: 315px;    line-height: 24px;    text-align: left;"
+        }
+      ],
+      "childElementIds": ["1658222563650-0-0"],
+      "mainId": "1658222563650-0",
+      "originName": "1658222563650-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222563650-0-0": {
+      "type": "text",
+      "value": "You only need to leave your email here and enjoy many offers every day"
+    },
+    "1658222569466-0": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "TextField"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222569466-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222569466-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "popup-widget-03"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "right: 37.46987951807229%; bottom: 32.97029702970297%; "
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".TextField",
+          "css": "position: absolute;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".TextField .Input",
+          "css": "font-weight: 400;    border: none;    text-transform: none;    letter-spacing: normal;    position: relative;    display: flex;    align-items: center;    cursor: text;    width: 100%;    line-height: 2.4rem;    border: none;    border-radius: 0;    outline: none;    background: transparent;    border-bottom: 1px solid #380701;"
+        }
+      ],
+      "childElementIds": ["1658222569466-0-0"],
+      "mainId": "1658222569466-0",
+      "originName": "1658222569466-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222569466-0-0": {
+      "type": "tag",
+      "tagName": "input",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Input"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "placeholder",
+          "value": "Enter your email"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222569466-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222569466-0-0"
+        }
+      ],
+      "style": [],
+      "childElementIds": [],
+      "mainId": "1658222569466-0",
+      "originName": "1658222569466-0-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222575601-0": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Btn"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222575601-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222575601-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "popup-widget-04"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "right: 36.144578313253014%; bottom: 11.386138613861386%; "
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Btn",
+          "css": "position: absolute; margin-top: 20px;    padding: 7px 20px;    height: 38px;    width: 180px;    display: flex;    align-items: center;    justify-content: center;    font-size: 16px;    text-align: center;    background-color: #fff;    color: #510C05;    font-weight: 500;    border: 1px solid #510C05;    cursor: pointer;    border-radius: 30px;    margin-left: 4px;"
+        }
+      ],
+      "childElementIds": ["1658222575601-0-0"],
+      "mainId": "1658222575601-0",
+      "originName": "1658222575601-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222575601-0-0": {
+      "type": "text",
+      "value": "SIGN UP"
+    },
+    "1658222595523-0": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "close-button"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "CloseBtn"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "top: 0.09900990099009901%; right: 0.12048192771084337%; "
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222595523-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222595523-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "close-button-05"
+        }
+      ],
+      "script": "document.querySelector('[class=\"CloseBtn\"]').onclick=ev=>{console.log(ev)}",
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn",
+          "css": "position: absolute; width: 28px; height: 28px; z-index: 9;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn svg",
+          "css": "width: 28px; height: 28px;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn svg path",
+          "css": "stroke:#6521A9;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn svg circle",
+          "css": "stroke:#6521A9;border: 2px solid #6521A9;"
+        }
+      ],
+      "childElementIds": ["1658222595523-0-0"],
+      "mainId": "1658222595523-0",
+      "originName": "1658222595523-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222595523-0-0": {
+      "type": "svg",
+      "value": "<svg width=\"28\" height=\"28\" viewBox=\"0 0 28 28\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M19.7338 8.2753C19.5637 8.10488 19.3329 8.0091 19.0922 8.0091C18.8514 8.0091 18.6206 8.10488 18.4505 8.2753L14 12.7167L9.54949 8.2662C9.37945 8.09578 9.14859 8 8.90785 8C8.66711 8 8.43625 8.09578 8.26621 8.2662C7.91126 8.62115 7.91126 9.19453 8.26621 9.54948L12.7167 14L8.26621 18.4505C7.91126 18.8055 7.91126 19.3788 8.26621 19.7338C8.62116 20.0887 9.19454 20.0887 9.54949 19.7338L14 15.2833L18.4505 19.7338C18.8055 20.0887 19.3788 20.0887 19.7338 19.7338C20.0887 19.3788 20.0887 18.8055 19.7338 18.4505L15.2833 14L19.7338 9.54948C20.0796 9.20363 20.0796 8.62115 19.7338 8.2753Z\" fill=\"#6521A9\"/><circle cx=\"14\" cy=\"14\" r=\"13\" stroke=\"#6521A9\" stroke-width=\"2\"/></svg>"
+    },
+    "1658222556074-1": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Header"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222559306-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222559306-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "popup-widget-01"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "top: 14.752475247524753%; right: 28.19277108433735%; "
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Header",
+          "css": "position: absolute; letter-spacing: .02em;    font-size: 40px;    line-height: 40px;    font-weight: 700;    color: #510C05;    max-width: 380px;    text-transform: uppercase;    overflow: hidden;"
+        }
+      ],
+      "childElementIds": ["1658222556074-1-0"],
+      "mainId": "1658222559306-0",
+      "originName": "1658222559306-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222556074-1-0": {
+      "type": "text",
+      "value": "JOIN US TODAY!"
+    },
+    "1658222556074-2": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Description"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222563650-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222563650-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "popup-widget-02"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "top: 30.594059405940595%; right: 29.03614457831325%; "
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Description",
+          "css": "position: absolute; font-size: 18px;    color: #333;    color:#510C05;    font-weight: 400;    margin-top: 16px;    overflow: hidden;    max-width: 315px;    line-height: 24px;    text-align: left;"
+        }
+      ],
+      "childElementIds": ["1658222556074-2-0"],
+      "mainId": "1658222563650-0",
+      "originName": "1658222563650-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222556074-2-0": {
+      "type": "text",
+      "value": "You only need to leave your email here and enjoy many offers every day"
+    },
+    "1658222556074-3": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "TextField"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222569466-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222569466-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "popup-widget-03"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "right: 37.46987951807229%; bottom: 32.97029702970297%; "
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".TextField",
+          "css": "position: absolute;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".TextField .Input",
+          "css": "font-weight: 400;    border: none;    text-transform: none;    letter-spacing: normal;    position: relative;    display: flex;    align-items: center;    cursor: text;    width: 100%;    line-height: 2.4rem;    border: none;    border-radius: 0;    outline: none;    background: transparent;    border-bottom: 1px solid #380701;"
+        }
+      ],
+      "childElementIds": ["1658222556074-3-0"],
+      "mainId": "1658222569466-0",
+      "originName": "1658222569466-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222556074-3-0": {
+      "type": "tag",
+      "tagName": "input",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Input"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "placeholder",
+          "value": "Enter your email"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222569466-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222569466-0-0"
+        }
+      ],
+      "style": [],
+      "childElementIds": [],
+      "mainId": "1658222569466-0",
+      "originName": "1658222569466-0-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222556074-4": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "Btn"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222575601-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222575601-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "popup-widget-04"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "right: 36.144578313253014%; bottom: 11.386138613861386%; "
+        }
+      ],
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Btn",
+          "css": "position: absolute; margin-top: 20px;    padding: 7px 20px;    height: 38px;    width: 180px;    display: flex;    align-items: center;    justify-content: center;    font-size: 16px;    text-align: center;    background-color: #fff;    color: #510C05;    font-weight: 500;    border: 1px solid #510C05;    cursor: pointer;    border-radius: 30px;    margin-left: 4px;"
+        }
+      ],
+      "childElementIds": ["1658222556074-4-0"],
+      "mainId": "1658222575601-0",
+      "originName": "1658222575601-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222556074-4-0": {
+      "type": "text",
+      "value": "SIGN UP"
+    },
+    "1658222556074-5": {
+      "type": "tag",
+      "tagName": "div",
+      "attribute": [
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "movetype",
+          "value": "popup-widget"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "widgettype",
+          "value": "close-button"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "class",
+          "value": "CloseBtn"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "style",
+          "value": "top: 0.09900990099009901%; right: 0.12048192771084337%; "
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "mainid",
+          "value": "1658222595523-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "id",
+          "value": "1658222595523-0"
+        },
+        {
+          "editName": false,
+          "editValue": false,
+          "name": "layouttype",
+          "value": "close-button-05"
+        }
+      ],
+      "script": "document.querySelector('[class=\"CloseBtn\"]').onclick=ev=>{console.log(ev)}",
+      "style": [
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn",
+          "css": "position: absolute; width: 28px; height: 28px; z-index: 9;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn svg",
+          "css": "width: 28px; height: 28px;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn svg path",
+          "css": "stroke:#6521A9;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".CloseBtn svg circle",
+          "css": "stroke:#6521A9;border: 2px solid #6521A9;"
+        }
+      ],
+      "childElementIds": ["1658222556074-5-0"],
+      "mainId": "1658222595523-0",
+      "originName": "1658222595523-0",
+      "fatherId": "1658222556074"
+    },
+    "1658222556074-5-0": {
+      "type": "svg",
+      "value": "<svg width=\"28\" height=\"28\" viewBox=\"0 0 28 28\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M19.7338 8.2753C19.5637 8.10488 19.3329 8.0091 19.0922 8.0091C18.8514 8.0091 18.6206 8.10488 18.4505 8.2753L14 12.7167L9.54949 8.2662C9.37945 8.09578 9.14859 8 8.90785 8C8.66711 8 8.43625 8.09578 8.26621 8.2662C7.91126 8.62115 7.91126 9.19453 8.26621 9.54948L12.7167 14L8.26621 18.4505C7.91126 18.8055 7.91126 19.3788 8.26621 19.7338C8.62116 20.0887 9.19454 20.0887 9.54949 19.7338L14 15.2833L18.4505 19.7338C18.8055 20.0887 19.3788 20.0887 19.7338 19.7338C20.0887 19.3788 20.0887 18.8055 19.7338 18.4505L15.2833 14L19.7338 9.54948C20.0796 9.20363 20.0796 8.62115 19.7338 8.2753Z\" fill=\"#6521A9\"/><circle cx=\"14\" cy=\"14\" r=\"13\" stroke=\"#6521A9\" stroke-width=\"2\"/></svg>"
     }
   }
 }
