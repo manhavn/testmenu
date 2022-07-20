@@ -25,7 +25,7 @@
           "editLocation": false,
           "editCss": true,
           "location": ".Modal",
-          "css": "position: relative;    max-width: 830px;    height: 505px;    width: 100%;    display: flex;    flex-direction: column;    box-shadow: 0 4px 15px hsl(0deg 0% 51% / 25%);    background-image: url(http://localhost:9999/images/Bg.png);    background-repeat: no-repeat;"
+          "css": "position: relative;    max-width: 830px;    height: 505px;    width: 100%;    display: flex;    flex-direction: column;    box-shadow: 0 4px 15px hsl(0deg 0% 51% / 25%);    background-image: url(http://139.99.91.152:9999/images/Bg.png);    background-repeat: no-repeat;"
         }
       ],
       "childElementIds": ["BodyWrapper"]

@@ -305,7 +305,7 @@ export default function Frame() {
       const dropNameType = target.getAttribute(MENUDRAGTYPE);
       if (dropNameType) {
         let url;
-        const hostApi = "http://localhost:9999";
+        const hostApi = "http://139.99.91.152:9999";
 
         const documentIframe = contentWindow.document;
         let elementBackground;
@@ -648,12 +648,13 @@ export default function Frame() {
   }, [menuDragEnd, menuDragStart, dragenter, template]);
 
   useEffect(() => {
-    fetch("http://localhost:9999/popup-shop-custom.json")
+    fetch("http://139.99.91.152:9999/popup-shop-custom.json")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         setDataJson(data);
+        snapShot(data);
       })
       .catch();
   }, []);
@@ -702,7 +703,7 @@ export default function Frame() {
   function loadDefaultSettings() {
     setDataJson(null);
     setSrcDoc(null);
-    fetch("http://localhost:9999/default-data.json")
+    fetch("http://139.99.91.152:9999/default-data.json")
       .then((res) => {
         return res.json();
       })
