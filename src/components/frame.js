@@ -60,6 +60,7 @@ export default function Frame() {
   const [menuDragStart, setMenuDragStart] = useState(null);
   const [menuDragEnd, setMenuDragEnd] = useState(null);
 
+  const [beginMove, setBeginMove] = useState(null);
   const [iframeDragStart, setIframeDragStart] = useState(null);
   const [iframeDragEnd, setIframeDragEnd] = useState(null);
   const [iframeDrop, setIframeDrop] = useState(null);
@@ -212,10 +213,12 @@ export default function Frame() {
         dataJson,
         {
           setMoveFixedAbsoluteData,
+          setBeginMove,
+          beginMove,
         }
       );
     }
-  }, [body, contentWindow, dataJson, moveFixedAbsoluteData]);
+  }, [beginMove, body, contentWindow, dataJson, moveFixedAbsoluteData]);
 
   useEffect(() => {
     setMenuDragEnd(null);

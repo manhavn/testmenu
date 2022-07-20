@@ -18,3 +18,4 @@ export const TEASER_BACKGROUND = "teaser-background";
 export const POPUP_BACKGROUND = "popup-background";
 
 export const LAYOUT_TYPE = "layouttype";
+export const BEGIN_MOVE_VALUE = 20;

@@ -1,4 +1,5 @@
 import {
+  BEGIN_MOVE_VALUE,
   DRAGGABLE,
   DRAGTYPE,
   DROPTYPE,
@@ -629,6 +630,7 @@ export function getNewPosition({ elLeft, elTop, elRight, elBottom }) {
       positionFixed = { right, bottom };
       break;
     default:
+      positionFixed = { left, top };
       break;
   }
   return positionFixed;
@@ -791,13 +793,32 @@ export function movePositionElement(
     contentWindow.onmousemove = null;
     body.onselectstart = null;
     props.setMoveFixedAbsoluteData(null);
+    props.setBeginMove(null);
   };
   contentWindow.onmouseout = ({ target }) => {
     target.style.cursor = emptyString;
   };
-  contentWindow.onmousemove = ({ pageX, pageY, target }) => {
+  contentWindow.onmousemove = ({
+    pageX,
+    pageY,
+    target,
+    layerX: layerX1,
+    layerY: layerY1,
+  }) => {
     if (target && target.style) target.style.cursor = defaultString;
     body.onselectstart = () => false;
+
+    if (
+      layerX1 - layerX > BEGIN_MOVE_VALUE ||
+      layerX1 - layerX < 0 - BEGIN_MOVE_VALUE ||
+      layerY1 - layerY > BEGIN_MOVE_VALUE ||
+      layerY1 - layerY < 0 - BEGIN_MOVE_VALUE
+    ) {
+      props.setBeginMove(true);
+    }
+    if (!props.beginMove) {
+      return;
+    }
     mouseMovingChangePosition(
       contentWindow,
       pageX,
