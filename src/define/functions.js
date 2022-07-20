@@ -16,9 +16,14 @@ import {
   TEMPLATE,
   WIDGETTYPE,
 } from "./consts";
+import state from "./state";
+
+export const dataActions = { ...state };
 
 export const iframeState = getNewTimeString();
 export const iframeMainElementSelected = getNewTimeString("imes");
+export const listActionKey = getNewTimeString("lak");
+export const currentActionKey = getNewTimeString("cak");
 
 export const after = "after";
 export const before = "before";
@@ -32,6 +37,34 @@ export const tagString = "tag";
 export const styleString = "style";
 export const scriptString = "script";
 export const divString = "div";
+export const noneString = "none";
+
+export function snapShot(snapData, screenType, callback) {
+  if (screenType !== TEASER_LAYOUT) {
+    screenType = POPUP_LAYOUT;
+  }
+  const oldListActions = [...(dataActions[listActionKey] || [])];
+  let listActions = oldListActions;
+
+  const currentKey = dataActions[currentActionKey];
+  if (currentKey) {
+    let findKey = oldListActions.length;
+    oldListActions.forEach((value, key) => {
+      if (value === currentKey) {
+        findKey = key + 1;
+      }
+    });
+    listActions = oldListActions.splice(0, findKey);
+    oldListActions.forEach((value) => {
+      delete dataActions[value];
+    });
+  }
+  const snapId = new Date().getTime().toString();
+  listActions.push(snapId);
+  dataActions[currentActionKey] = snapId;
+  dataActions.setState(listActionKey, listActions, callback);
+  dataActions.setState(snapId, JSON.stringify({ snapData, screenType }));
+}
 
 export function jsonAppendDataHtmlByID({
   originData,
@@ -147,9 +180,9 @@ export function jsonAppendDataHtmlByID({
 
       // script
       if (newChildElement.script) {
-        const scriptElement = document.createElement(scriptString);
-        scriptElement.innerHTML = newChildElement.script;
-        element.appendChild(scriptElement);
+        // const scriptElement = document.createElement(scriptString);
+        // scriptElement.innerHTML = newChildElement.script;
+        // element.appendChild(scriptElement);
       }
       // script
 
@@ -466,7 +499,14 @@ export function insertElementToElement(
     .forEach((value) => (value.style = {}));
 }
 
-export function moving(drop, drag, contentWindow, dataJson, moveName) {
+export function moving(
+  drop,
+  drag,
+  contentWindow,
+  dataJson,
+  moveName,
+  screenType
+) {
   insertElementToElement(drop, drag, contentWindow, dataJson, moveName);
   if (contentWindow[iframeState]) {
     const mainElement = contentWindow[iframeState][iframeMainElementSelected];
@@ -481,6 +521,7 @@ export function moving(drop, drag, contentWindow, dataJson, moveName) {
       contentWindow[iframeState].setState(iframeMainElementSelected, null);
     }
   }
+  snapShot(dataJson, screenType);
 }
 
 export function dragging(
@@ -589,6 +630,7 @@ export function dragging(
     default:
       break;
   }
+  snapShot(dataJson, drag.getAttribute(DRAGTYPE));
 }
 
 export function setAfterBeforeAppend(
@@ -794,6 +836,7 @@ export function movePositionElement(
     body.onselectstart = null;
     props.setMoveFixedAbsoluteData(null);
     props.setBeginMove(null);
+    if (props.beginMove) snapShot(dataJson, props.screenType);
   };
   contentWindow.onmouseout = ({ target }) => {
     target.style.cursor = emptyString;

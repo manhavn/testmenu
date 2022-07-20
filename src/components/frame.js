@@ -36,6 +36,11 @@ import {
   lastChild,
   movePositionElement,
   emptyString,
+  dataActions,
+  currentActionKey,
+  snapShot,
+  listActionKey,
+  noneString,
 } from "../define/functions";
 import state from "../define/state";
 
@@ -86,6 +91,12 @@ export default function Frame() {
   const [template, setTemplate] = useState(null);
 
   const [dragId, setDragId] = useState(emptyString);
+
+  const [screenType, setScreenType] = useState(null);
+
+  useEffect(() => {
+    if (selected) setScreenType(selected);
+  }, [selected]);
 
   useEffect(() => {
     if (iframeWebWindow) {
@@ -201,8 +212,27 @@ export default function Frame() {
         ev.preventDefault();
         setIframeDrop(ev);
       };
+
+      const documentIframe = contentWindow.document;
+      if (documentIframe && screenType) {
+        if (screenType === TEASER_LAYOUT) {
+          documentIframe.querySelector(
+            `[${MAIN_TYPE}="${POPUP_BACKGROUND}"]`
+          ).style.display = noneString;
+          documentIframe.querySelector(
+            `[${MAIN_TYPE}="${TEASER_BACKGROUND}"]`
+          ).style = {};
+        } else {
+          documentIframe.querySelector(
+            `[${MAIN_TYPE}="${TEASER_BACKGROUND}"]`
+          ).style.display = noneString;
+          documentIframe.querySelector(
+            `[${MAIN_TYPE}="${POPUP_BACKGROUND}"]`
+          ).style = {};
+        }
+      }
     }
-  }, [body, contentWindow, dataJson]);
+  }, [body, contentWindow, dataJson, screenType]);
 
   useEffect(() => {
     if (body && contentWindow && moveFixedAbsoluteData) {
@@ -215,10 +245,18 @@ export default function Frame() {
           setMoveFixedAbsoluteData,
           setBeginMove,
           beginMove,
+          screenType,
         }
       );
     }
-  }, [beginMove, body, contentWindow, dataJson, moveFixedAbsoluteData]);
+  }, [
+    beginMove,
+    body,
+    contentWindow,
+    dataJson,
+    moveFixedAbsoluteData,
+    screenType,
+  ]);
 
   useEffect(() => {
     setMenuDragEnd(null);
@@ -226,14 +264,14 @@ export default function Frame() {
   }, [resetDragData]);
 
   useEffect(() => {
-    if (contentWindow && selected) {
+    if (contentWindow && screenType) {
       const documentIframe = contentWindow.document;
 
-      switch (selected) {
+      switch (screenType) {
         case TEASER_LAYOUT:
           documentIframe.querySelector(
             `[${MAIN_TYPE}="${POPUP_BACKGROUND}"]`
-          ).style.display = "none";
+          ).style.display = noneString;
           documentIframe.querySelector(
             `[${MAIN_TYPE}="${TEASER_BACKGROUND}"]`
           ).style = {};
@@ -242,7 +280,7 @@ export default function Frame() {
         case POPUP_WIDGET:
           documentIframe.querySelector(
             `[${MAIN_TYPE}="${TEASER_BACKGROUND}"]`
-          ).style.display = "none";
+          ).style.display = noneString;
           documentIframe.querySelector(
             `[${MAIN_TYPE}="${POPUP_BACKGROUND}"]`
           ).style = {};
@@ -253,7 +291,7 @@ export default function Frame() {
           break;
       }
     }
-  }, [contentWindow, selected]);
+  }, [contentWindow, screenType]);
 
   useEffect(() => {
     if (menuDragStart && contentWindow) {
@@ -422,7 +460,14 @@ export default function Frame() {
         if (
           targetDrag.getAttribute(DRAGTYPE) === target.getAttribute(DROPTYPE)
         ) {
-          moving(target, targetDrag, contentWindow, dataJson, moveName);
+          moving(
+            target,
+            targetDrag,
+            contentWindow,
+            dataJson,
+            moveName,
+            screenType
+          );
         } else {
           contentWindow.document
             .querySelectorAll(
@@ -455,10 +500,18 @@ export default function Frame() {
                     targetDrag,
                     contentWindow,
                     dataJson,
-                    moveName
+                    moveName,
+                    screenType
                   );
                 } else {
-                  moving(value, targetDrag, contentWindow, dataJson, moveName);
+                  moving(
+                    value,
+                    targetDrag,
+                    contentWindow,
+                    dataJson,
+                    moveName,
+                    screenType
+                  );
                 }
               }
             });
@@ -475,6 +528,7 @@ export default function Frame() {
     dragenter,
     iframeDragEnd,
     iframeDragStart,
+    screenType,
   ]);
 
   useEffect(() => {
@@ -539,6 +593,9 @@ export default function Frame() {
         } else {
           teaserBackground.setAttribute(DROPTYPE, TEASER_LAYOUT);
         }
+        if (screenType !== TEASER_LAYOUT) {
+          teaserBackground.style.display = noneString;
+        }
       }
       if (popupScreenBackground) {
         const { childElementIds } = popupScreenBackground;
@@ -562,6 +619,9 @@ export default function Frame() {
         } else {
           popupBackground.setAttribute(DROPTYPE, POPUP_LAYOUT);
         }
+        if (screenType === TEASER_LAYOUT) {
+          popupBackground.style.display = noneString;
+        }
       }
 
       const srcDocData = document.createElement("div");
@@ -571,6 +631,7 @@ export default function Frame() {
       setSrcDoc(srcDocData.innerHTML);
       srcDocData.remove();
     }
+    // eslint-disable-next-line
   }, [dataJson]);
 
   useEffect(() => {
@@ -601,6 +662,43 @@ export default function Frame() {
     console.log(JSON.stringify(dataJson));
   }
 
+  function undoRedoAction(checkUndo = false) {
+    const dataListAction = dataActions[listActionKey];
+    if (!dataListAction) return;
+    const currentKey = dataActions[currentActionKey];
+    let findKey = dataListAction.length - 1;
+    dataListAction.forEach((value, key) => {
+      if (value === currentKey) {
+        findKey = key;
+      }
+    });
+    let nextOrPrevKey;
+    if (checkUndo) {
+      if (findKey > 0) {
+        nextOrPrevKey = dataListAction[findKey - 1];
+      }
+    } else {
+      if (findKey < dataListAction.length - 1) {
+        nextOrPrevKey = dataListAction[findKey + 1];
+      }
+    }
+    if (!nextOrPrevKey) return;
+    setDataJson(null);
+    setSrcDoc(null);
+    dataActions.setState(currentActionKey, nextOrPrevKey);
+    const snapShotData = JSON.parse(dataActions[nextOrPrevKey]);
+    setDataJson(snapShotData.snapData);
+    setScreenType(snapShotData.screenType);
+  }
+
+  function undo() {
+    undoRedoAction(true);
+  }
+
+  function redo() {
+    undoRedoAction(false);
+  }
+
   function loadDefaultSettings() {
     setDataJson(null);
     setSrcDoc(null);
@@ -610,6 +708,7 @@ export default function Frame() {
       })
       .then((data) => {
         setDataJson(data);
+        snapShot(data, POPUP_LAYOUT);
       })
       .catch();
   }
@@ -617,6 +716,8 @@ export default function Frame() {
   return (
     <>
       <Header
+        undo={undo}
+        redo={redo}
         exportSettings={exportSettings}
         loadDefaultSettings={loadDefaultSettings}
       />
