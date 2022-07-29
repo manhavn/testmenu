@@ -29,7 +29,6 @@ import {
   dragging,
   iframeBodyOnMousedown,
   iframeState,
-  jsonAppendDataHtmlByID,
   jsonElementToHtml,
   moving,
   setAfterBeforeAppend,
@@ -41,6 +40,7 @@ import {
   snapShot,
   listActionKey,
   noneString,
+  jsonLoadDataHtml,
 } from "../define/functions";
 import state from "../define/state";
 
@@ -72,6 +72,7 @@ export default function Frame() {
 
   const [iframeWebWindow, setIframeWebWindow] = useState(null);
   const [contentWindow, setContentWindow] = useState(null);
+  const [documentIframe, setDocumentIframe] = useState(null);
   const [body, setBody] = useState(null);
 
   const [dragenter, setDragenter] = useState(null);
@@ -93,16 +94,51 @@ export default function Frame() {
   const [dragId, setDragId] = useState(emptyString);
 
   const [screenType, setScreenType] = useState(null);
+  const [editorId, setEditorId] = useState(null);
+  const [contentChanged, setContentChanged] = useState(null);
+  const [editor, setEditor] = useState(null);
 
   useEffect(() => {
     if (selected) setScreenType(selected);
   }, [selected]);
 
   useEffect(() => {
+    if (
+      editor &&
+      documentIframe &&
+      dataJson &&
+      editorId &&
+      contentChanged === "blur"
+    ) {
+      setContentChanged("");
+      const newDoc = document.createElement("div");
+      newDoc.innerHTML = editor.html.get();
+      documentIframe.getElementById(editorId).innerHTML =
+        newDoc.firstChild.innerHTML;
+      if (dataJson.childElements[editorId]) {
+        dataJson.childElements[editorId].childElementIds.forEach((value) => {
+          dataJson.childElements[value].value = newDoc.firstChild.innerHTML;
+        });
+      }
+      editor.destroy();
+      newDoc.remove();
+      snapShot(dataJson);
+    }
+  }, [editor, contentChanged, editorId, documentIframe, dataJson]);
+
+  useEffect(() => {
     if (iframeWebWindow) {
       const { contentWindow } = iframeWebWindow.target;
       setContentWindow(contentWindow);
+      setDocumentIframe(contentWindow.document);
       setBody(contentWindow.document.body);
+
+      contentWindow.contentChanged = function (ev) {
+        setContentChanged(ev);
+      };
+      contentWindow.editFunc111 = function (editor) {
+        setEditor(editor);
+      };
     }
   }, [iframeWebWindow]);
 
@@ -188,8 +224,18 @@ export default function Frame() {
                 mainElement.ondragend = null;
                 mainElement.removeAttribute(DRAGGABLE);
               };
-              target.onclick = () => {
+              target.onclick = (ev) => {
                 console.log(mainId);
+                if (dataJson.childElements[ev.target.id]) {
+                  dataJson.childElements[ev.target.id].childElementIds.forEach(
+                    (value) => {
+                      if (dataJson.childElements[value].type === "text") {
+                        setEditorId(ev.target.id);
+                        contentWindow.editor123(`[id="${ev.target.id}"]`);
+                      }
+                    }
+                  );
+                }
               };
               mainElement.onmouseout = () => {
                 mainElement.style.outline = emptyString;
@@ -305,7 +351,7 @@ export default function Frame() {
       const dropNameType = target.getAttribute(MENUDRAGTYPE);
       if (dropNameType) {
         let url;
-        const hostApi = "http://139.99.91.152:9999";
+        const hostApi = "http://localhost:9999";
 
         const documentIframe = contentWindow.document;
         let elementBackground;
@@ -579,15 +625,11 @@ export default function Frame() {
         if (childElementIds.length > 0) {
           teaserBackground.removeAttribute(DROPTYPE);
           childElementIds.forEach((value) => {
-            jsonAppendDataHtmlByID({
-              originData: dataJson,
-              originName: value,
+            jsonLoadDataHtml({
               newChildData: dataJson,
               newChildElement: childElements[value],
 
               parentElement: teaserBackground,
-              addNewElement: false,
-              addAndSetPosition: false,
             });
           });
         } else {
@@ -605,15 +647,11 @@ export default function Frame() {
         if (childElementIds.length > 0) {
           popupBackground.removeAttribute(DROPTYPE);
           childElementIds.forEach((value) => {
-            jsonAppendDataHtmlByID({
-              originData: dataJson,
-              originName: value,
+            jsonLoadDataHtml({
               newChildData: dataJson,
               newChildElement: childElements[value],
 
               parentElement: popupBackground,
-              addNewElement: false,
-              addAndSetPosition: false,
             });
           });
         } else {
@@ -623,6 +661,32 @@ export default function Frame() {
           popupBackground.style.display = noneString;
         }
       }
+
+      addStringDataToHtml(
+        `<link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />`,
+        headElement
+      );
+      addStringDataToHtml(
+        `<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>`,
+        bodyElement
+      );
+      addStringDataToHtml(
+        `<script>window.editor123 = function(qs){let editor = new FroalaEditor(qs,{
+          toolbarInline: true,
+          charCounterCount: false,
+          events: {
+    'focus': function () {
+            window.contentChanged('focus')
+    },
+    'blur': function () {
+            window.contentChanged('blur')
+    }
+  }
+        },  function () {
+  window.editFunc111(editor)
+});}</script>`,
+        bodyElement
+      );
 
       const srcDocData = document.createElement("div");
       srcDocData.appendChild(headElement);
@@ -648,7 +712,7 @@ export default function Frame() {
   }, [menuDragEnd, menuDragStart, dragenter, template]);
 
   useEffect(() => {
-    fetch("http://139.99.91.152:9999/popup-shop-custom.json")
+    fetch("http://localhost:9999/popup-shop-custom.json")
       .then((res) => {
         return res.json();
       })
@@ -703,7 +767,7 @@ export default function Frame() {
   function loadDefaultSettings() {
     setDataJson(null);
     setSrcDoc(null);
-    fetch("http://139.99.91.152:9999/default-data.json")
+    fetch("http://localhost:9999/default-data.json")
       .then((res) => {
         return res.json();
       })

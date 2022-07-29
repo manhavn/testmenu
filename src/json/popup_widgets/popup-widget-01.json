@@ -31,84 +31,28 @@
           "editLocation": false,
           "editCss": true,
           "location": ".Header",
-          "css": "position: absolute; letter-spacing: .02em;    font-size: 40px;    line-height: 40px;    font-weight: 700;    color: #510C05;    max-width: 380px;    text-transform: uppercase;    overflow: hidden;"
+          "css": "position: absolute; letter-spacing: .02em;    font-size: 40px;    line-height: 40px;    font-weight: 700;    color: #510C05;    max-width: 380px;    text-transform: uppercase;    "
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Header p",
+          "css": "margin: 0;"
         }
       ],
+      "childElementIds": ["divTextHeader"]
+    },
+    "divTextHeader": {
+      "type": "tag",
+      "tagName": "div",
+      "editor": "text",
+      "attribute": [],
+      "style": [],
       "childElementIds": ["textHeader"]
     },
     "textHeader": {
       "type": "text",
       "value": "JOIN US TODAY!"
-    },
-    "popupWidget01": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "movetype",
-          "value": "popup-widget"
-        },
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "class",
-          "value": "popupWidget01"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".popupWidget01",
-          "css": "color: green; position: absolute;"
-        }
-      ],
-      "childElementIds": ["div01", "div02"]
-    },
-    "div01": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [],
-      "style": [],
-      "childElementIds": ["div0101"]
-    },
-    "div0101": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [],
-      "style": [],
-      "childElementIds": ["div0101text"]
-    },
-    "div0101text": {
-      "type": "text",
-      "value": "div-01-01-text 11111111"
-    },
-    "div02": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "class",
-          "value": "popup-widget-01-div-02"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".popup-widget-01-div-02",
-          "css": "color: red;"
-        }
-      ],
-      "childElementIds": ["div02text"]
-    },
-    "div02text": {
-      "type": "text",
-      "value": "div-02-text 111111"
     }
   }
 }

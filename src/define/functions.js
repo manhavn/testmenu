@@ -38,6 +38,7 @@ export const styleString = "style";
 export const scriptString = "script";
 export const divString = "div";
 export const noneString = "none";
+export const trueString = "true";
 
 export function snapShot(snapData, screenType, callback) {
   if (screenType !== TEASER_LAYOUT) {
@@ -87,6 +88,8 @@ export function jsonAppendDataHtmlByID({
   iframeDrop,
   contentWindow,
   moveNameType,
+
+  preview,
 }) {
   switch (newChildElement.type) {
     case textString:
@@ -190,6 +193,10 @@ export function jsonAppendDataHtmlByID({
         newChildElement.fatherId = fatherId;
       }
 
+      if (newChildData.editor) {
+        newChildElement.editor = newChildData.editor;
+      }
+
       originData.childElements[originName] = {
         ...newChildElement,
         childElementIds: [],
@@ -212,6 +219,7 @@ export function jsonAppendDataHtmlByID({
           });
         });
       }
+
       switch (moveName) {
         case after:
           parentElement.insertBefore(element, dropChild.nextSibling);
@@ -248,6 +256,76 @@ export function jsonAppendDataHtmlByID({
   }
 }
 
+export function jsonLoadDataHtml({
+  newChildData,
+  newChildElement,
+
+  moveName,
+  dropChild,
+  parentElement,
+}) {
+  switch (newChildElement.type) {
+    case textString:
+    case svgString:
+      parentElement.innerHTML += newChildElement.value;
+      break;
+    case tagString:
+      const { childElementIds } = newChildElement;
+      const element = document.createElement(newChildElement.tagName);
+
+      // setAttribute
+      const attributes = newChildElement.attribute || [];
+      attributes.forEach(({ name, value }) => {
+        element.setAttribute(name, value);
+      });
+
+      // Style
+      const styles = newChildElement.style || [];
+      if (styles.length > 0) {
+        const styleElement = document.createElement(styleString);
+        styles.forEach(({ location, css }) => {
+          styleElement.innerHTML += `${location} { ${css} } `;
+        });
+        element.appendChild(styleElement);
+      }
+      // Style
+
+      // script
+      if (newChildElement.script) {
+        const scriptElement = document.createElement(scriptString);
+        scriptElement.innerHTML = newChildElement.script;
+        element.appendChild(scriptElement);
+      }
+      // script
+
+      if (childElementIds.length > 0) {
+        childElementIds.forEach((value) => {
+          jsonLoadDataHtml({
+            newChildData,
+            newChildElement: newChildData.childElements[value],
+
+            parentElement: element,
+          });
+        });
+      }
+
+      switch (moveName) {
+        case after:
+          parentElement.insertBefore(element, dropChild.nextSibling);
+          break;
+        case before:
+          parentElement.insertBefore(element, dropChild);
+          break;
+        default:
+          parentElement.appendChild(element);
+          break;
+      }
+      break;
+    default:
+      break;
+  }
+}
+
 export function addStringDataToHtml(stringData, element) {
   const temp = document.createElement(divString);
   temp.innerHTML = stringData;
@@ -255,7 +333,7 @@ export function addStringDataToHtml(stringData, element) {
   temp.remove();
 }
 
-export function getNewTimeString(prefix = emptyString) {
+export function getNewTimeString(prefix = "") {
   return `${prefix}${new Date().getTime().toString()}`;
 }
 
@@ -653,7 +731,7 @@ export function getNewPercentValue(p, l, i) {
 }
 
 export function getNewPosition({ elLeft, elTop, elRight, elBottom }) {
-  let positionFixed = {};
+  let positionFixed;
   const left = `${elLeft}%`;
   const top = `${elTop}%`;
   const right = `${elRight}%`;

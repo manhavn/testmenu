@@ -31,84 +31,28 @@
           "editLocation": false,
           "editCss": true,
           "location": ".Description",
-          "css": "position: absolute; font-size: 18px;    color: #333;    color:#510C05;    font-weight: 400;    margin-top: 16px;    overflow: hidden;    max-width: 315px;    line-height: 24px;    text-align: left;"
+          "css": "position: absolute; font-size: 18px;    color: #333;    color:#510C05;    font-weight: 400;    max-width: 315px;    line-height: 24px;    text-align: left;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".Description p",
+          "css": "margin: 0;"
         }
       ],
+      "childElementIds": ["divTextDescription"]
+    },
+    "divTextDescription": {
+      "type": "tag",
+      "tagName": "div",
+      "editor": "text",
+      "attribute": [],
+      "style": [],
       "childElementIds": ["textDescription"]
     },
     "textDescription": {
       "type": "text",
       "value": "You only need to leave your email here and enjoy many offers every day"
-    },
-    "popupWidget02": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "dragtype",
-          "value": "popup-widget"
-        },
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "class",
-          "value": "popupWidget02"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".popupWidget02",
-          "css": "color: green;"
-        }
-      ],
-      "childElementIds": ["div02", "div0202"]
-    },
-    "div02": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [],
-      "style": [],
-      "childElementIds": ["div020202"]
-    },
-    "div020202": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [],
-      "style": [],
-      "childElementIds": ["div0202text"]
-    },
-    "div0202text": {
-      "type": "text",
-      "value": "div-02-02-text 22222222222"
-    },
-    "div0202": {
-      "type": "tag",
-      "tagName": "div",
-      "attribute": [
-        {
-          "editName": false,
-          "editValue": false,
-          "name": "class",
-          "value": "popup-widget-02-div-02"
-        }
-      ],
-      "style": [
-        {
-          "editLocation": false,
-          "editCss": true,
-          "location": ".popup-widget-02-div-02",
-          "css": "color: red;"
-        }
-      ],
-      "childElementIds": ["div02text"]
-    },
-    "div02text": {
-      "type": "text",
-      "value": "div-02-text 22222222222"
     }
   }
 }

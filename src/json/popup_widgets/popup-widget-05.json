@@ -71,8 +71,22 @@
           "editCss": true,
           "location": ".popup-widget-05-div-02",
           "css": "color: red;"
+        },
+        {
+          "editLocation": false,
+          "editCss": true,
+          "location": ".popup-widget-05-div-02 p",
+          "css": "margin: 0;"
         }
       ],
+      "childElementIds": ["divDiv02text"]
+    },
+    "divDiv02text": {
+      "type": "tag",
+      "tagName": "div",
+      "editor": "text",
+      "attribute": [],
+      "style": [],
       "childElementIds": ["div02text"]
     },
     "div02text": {

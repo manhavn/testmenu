@@ -1,5 +1,5 @@
 const state = {
-  setState: function (name, value, callback) {
+  setState(name, value, callback) {
     const oldValue = this[name];
     const dataChange = { name, value, oldValue };
     switch (typeof value) {
